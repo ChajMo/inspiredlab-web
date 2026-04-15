@@ -522,8 +522,8 @@ function Programs() {
         title: "InspirED Conversations",
         eyebrow: "InspirED Media",
         desc: "We engage with community members from diverse backgrounds to explore how science shows up in daily life.",
-        video: "/Interviews/interview-azmon.mp4",
-        cta: { label: "Check out our conversations!", href: "##resources" },
+        video: "/Interviews/Interview-Azmon.mp4",
+        cta: { label: "Check out our conversations!", href: "#resources" },
       },
       {
         title: "Birds of SKN",
