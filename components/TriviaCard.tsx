@@ -851,10 +851,10 @@ const QUESTION_BANK: TriviaQ[] = [
 // National flowers
 {
   category: "Geography",
-  question: "Declared in 1985, which plant is the national flower of Antigua and Barbuda?",
+  question: "What is the national flower of Antigua and Barbuda?",
   choices: ["Dagger Log (Antigua agave)", "Bougainvillea", "Lignum Vitae", "Yellow Elder"],
   answerIndex: 0,
-  explain: "The Dagger Log, a type of agave (century plant), was formally declared Antigua and Barbuda's national flower in 1985.",
+  explain: "The Dagger Log, a type of agave (century plant), is Antigua and Barbuda's national flower.",
 },
 {
   category: "Geography",
@@ -874,7 +874,7 @@ const QUESTION_BANK: TriviaQ[] = [
   question: "What is the national flower of Belize?",
   choices: ["The Black Orchid", "The Bougainvillea", "The Hibiscus", "The Poinciana"],
   answerIndex: 0,
-  explain: "The Black Orchid was formally designated Belize's national flower by the National Symbols Act, 2025 — an actual act of parliament.",
+  explain: "The Black Orchid (Encyclia cochleatum) has long been recognized as Belize's national flower, alongside the mahogany tree and the keel-billed toucan as national symbols.",
 },
 {
   category: "Geography",
