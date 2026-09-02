@@ -737,7 +737,7 @@ function TeacherResources() {
       {
         title: "Osmosis Kinesthetic Activity",
         category: "Whole Body Learning",
-        author: "Hilary Ferguson",
+        author: "Hilary Ferguson Morton",
         desc: "A whole-body classroom activity using chairs and movement to model a selectively permeable membrane and osmosis — a good engage activity for the topic.",
         links: [
           {
