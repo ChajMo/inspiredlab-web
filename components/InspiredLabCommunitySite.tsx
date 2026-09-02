@@ -380,7 +380,7 @@ function Hero() {
             </Card>
 
             {/* Previous event card */}
-            <Card className="rounded-3xl shadow-sm border-[oklch(var(--brand-sky)/0.25)] bg-white">
+            <Card className="rounded-3xl shadow-sm border-[oklch(var(--brand-sky)/0.25)] bg-gradient-to-br from-[oklch(var(--brand-sky)/0.06)] to-[oklch(var(--brand-sky)/0.12)]">
               <CardContent className="p-5">
                 <div className="flex items-start gap-3">
                   <div className="h-10 w-10 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
