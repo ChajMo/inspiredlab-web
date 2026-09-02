@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Facebook, Copy, Share2 } from "lucide-react";
+import { Facebook, Copy, Share2, Download, Sprout, Compass, BookOpen, Trophy } from "lucide-react";
 
 type TriviaQ = {
   category: "Culture" | "History" | "Science";
@@ -272,12 +272,216 @@ function shuffle<T>(arr: T[]) {
   return copy;
 }
 
+// ---- Score badges ----
+// Tier thresholds are checked from the bottom up: the highest-min tier the
+// score qualifies for wins. Colors are separate for on-page (Tailwind-ish
+// hex) and canvas (drawn into the downloadable/shareable badge image).
+type Tier = {
+  key: string;
+  min: number; // minimum fraction correct (0-1) to earn this tier
+  label: string;
+  blurb: string;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+  emoji: string; // used inside the generated canvas image (icons aren't drawable there)
+  from: string; // gradient start (on-page + canvas)
+  to: string; // gradient end
+  accent: string; // text/icon accent color
+};
+
+const TIERS: Tier[] = [
+  {
+    key: "learner",
+    min: 0,
+    label: "Curious Learner",
+    blurb: "You're just getting started — try again to level up!",
+    icon: Sprout,
+    emoji: "🌱",
+    from: "#DCEEFC",
+    to: "#BFE0FA",
+    accent: "#1D4E89",
+  },
+  {
+    key: "explorer",
+    min: 0.4,
+    label: "Culture Explorer",
+    blurb: "Solid instincts for Caribbean culture and history!",
+    icon: Compass,
+    emoji: "🧭",
+    from: "#D6F5EA",
+    to: "#AEE9CF",
+    accent: "#0F7A55",
+  },
+  {
+    key: "scholar",
+    min: 0.7,
+    label: "Island Scholar",
+    blurb: "Impressive knowledge of the region!",
+    icon: BookOpen,
+    emoji: "📚",
+    from: "#FFE8D2",
+    to: "#FFD1A6",
+    accent: "#B45B18",
+  },
+  {
+    key: "master",
+    min: 0.9,
+    label: "Caribbean Trivia Master",
+    blurb: "Outstanding! You really know your stuff.",
+    icon: Trophy,
+    emoji: "🏆",
+    from: "#FFF3C4",
+    to: "#FFE28A",
+    accent: "#8A6300",
+  },
+];
+
+function getTier(score: number, total: number): Tier {
+  const pct = total > 0 ? score / total : 0;
+  let result = TIERS[0];
+  for (const tier of TIERS) {
+    if (pct >= tier.min) result = tier;
+  }
+  return result;
+}
+
+function roundRectPath(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+// Draws a 1080x1080 shareable badge image and returns it as a PNG Blob.
+async function buildBadgeImage(
+  tier: Tier,
+  score: number,
+  total: number
+): Promise<Blob | null> {
+  const size = 1080;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  // Background gradient in the tier's color
+  const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+  bgGrad.addColorStop(0, tier.from);
+  bgGrad.addColorStop(1, tier.to);
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, size, size);
+
+  // White "certificate" panel
+  const pad = 64;
+  ctx.save();
+  ctx.shadowColor = "rgba(20,33,61,0.18)";
+  ctx.shadowBlur = 50;
+  ctx.shadowOffsetY = 22;
+  roundRectPath(ctx, pad, pad, size - pad * 2, size - pad * 2, 56);
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  ctx.restore();
+
+  // Logo
+  try {
+    const logo = await loadImage("/InspiredLab.png");
+    const logoSize = 92;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(size / 2, pad + 118, logoSize / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(
+      logo,
+      size / 2 - logoSize / 2,
+      pad + 118 - logoSize / 2,
+      logoSize,
+      logoSize
+    );
+    ctx.restore();
+  } catch {
+    // logo failed to load — continue without it
+  }
+
+  ctx.textAlign = "center";
+
+  ctx.fillStyle = "#14213D";
+  ctx.font = "600 30px system-ui, -apple-system, Segoe UI, sans-serif";
+  ctx.fillText("InspirED Lab Trivia Challenge", size / 2, pad + 118 + 46 + 34);
+
+  // Big emoji "icon" badge circle
+  const iconCenterY = pad + 118 + 46 + 34 + 150;
+  const iconRadius = 112;
+  ctx.beginPath();
+  ctx.arc(size / 2, iconCenterY, iconRadius, 0, Math.PI * 2);
+  ctx.fillStyle = tier.from;
+  ctx.fill();
+  ctx.font = "120px system-ui, -apple-system, Segoe UI, sans-serif";
+  ctx.textBaseline = "middle";
+  ctx.fillText(tier.emoji, size / 2, iconCenterY + 8);
+  ctx.textBaseline = "alphabetic";
+
+  // Tier label
+  ctx.fillStyle = tier.accent;
+  ctx.font = "700 66px system-ui, -apple-system, Segoe UI, sans-serif";
+  ctx.fillText(tier.label, size / 2, iconCenterY + iconRadius + 90);
+
+  // Score
+  ctx.fillStyle = "#14213D";
+  ctx.font = "700 48px system-ui, -apple-system, Segoe UI, sans-serif";
+  const scoreY = iconCenterY + iconRadius + 168;
+  ctx.fillText(`${score} / ${total} correct`, size / 2, scoreY);
+
+  // Decorative divider
+  const dividerY = scoreY + 64;
+  ctx.strokeStyle = tier.from;
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(size / 2 - 90, dividerY);
+  ctx.lineTo(size / 2 + 90, dividerY);
+  ctx.stroke();
+
+  // Footer
+  ctx.fillStyle = "#46546F";
+  ctx.font = "500 30px system-ui, -apple-system, Segoe UI, sans-serif";
+  ctx.fillText("Think you can beat this?", size / 2, dividerY + 66);
+  ctx.fillStyle = tier.accent;
+  ctx.font = "700 32px system-ui, -apple-system, Segoe UI, sans-serif";
+  ctx.fillText("inspiredlabskn.org", size / 2, dividerY + 112);
+
+  return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png"));
+}
+
 export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
   const [round, setRound] = useState<TriviaQ[]>([]);
   const [i, setI] = useState(0);
   const [score, setScore] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [done, setDone] = useState(false);
+  const [badgeUrl, setBadgeUrl] = useState<string | null>(null);
+  const [badgeBlob, setBadgeBlob] = useState<Blob | null>(null);
+  const [generatingBadge, setGeneratingBadge] = useState(false);
+  const [canShareFiles, setCanShareFiles] = useState(false);
 
   useEffect(() => {
     setRound(shuffle(QUESTION_BANK).slice(0, maxQuestions));
@@ -286,6 +490,50 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
     setPicked(null);
     setDone(false);
   }, [maxQuestions]);
+
+  // Feature-detect whether this browser can share image files (mobile Safari/
+  // Chrome mostly) vs. only text/links (most desktop browsers).
+  useEffect(() => {
+    try {
+      const probe = new File([""], "probe.png", { type: "image/png" });
+      setCanShareFiles(
+        typeof navigator !== "undefined" &&
+          !!navigator.canShare &&
+          navigator.canShare({ files: [probe] })
+      );
+    } catch {
+      setCanShareFiles(false);
+    }
+  }, []);
+
+  // Generate the shareable badge image once the round finishes.
+  useEffect(() => {
+    if (!done || round.length === 0) return;
+    let cancelled = false;
+    setGeneratingBadge(true);
+    const tier = getTier(score, round.length);
+    buildBadgeImage(tier, score, round.length).then((blob) => {
+      if (cancelled) return;
+      setGeneratingBadge(false);
+      if (!blob) return;
+      setBadgeBlob(blob);
+      setBadgeUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(blob);
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
+  // Clean up the generated image URL when it changes or the component unmounts.
+  useEffect(() => {
+    return () => {
+      if (badgeUrl) URL.revokeObjectURL(badgeUrl);
+    };
+  }, [badgeUrl]);
 
   if (round.length === 0) {
     return (
@@ -320,7 +568,12 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
     setScore(0);
     setPicked(null);
     setDone(false);
-}
+    setBadgeBlob(null);
+    setBadgeUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
+  }
   const shareUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/#resources`
@@ -340,20 +593,45 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
     }
   }
 
-  async function nativeShare() {
+  async function getOrBuildBadgeBlob(): Promise<Blob | null> {
+    if (badgeBlob) return badgeBlob;
+    const tier = getTier(score, round.length);
+    return buildBadgeImage(tier, score, round.length);
+  }
+
+  async function downloadBadge() {
+    const blob = await getOrBuildBadgeBlob();
+    if (!blob) return;
+    const tier = getTier(score, round.length);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `inspired-lab-trivia-${tier.key}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function shareBadge() {
+    const blob = await getOrBuildBadgeBlob();
+    if (!blob) return;
+    const file = new File([blob], "inspired-lab-trivia-badge.png", {
+      type: "image/png",
+    });
     try {
-      if (navigator.share) {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
+          files: [file],
           title: "InspirED Lab Trivia",
           text: shareText,
-          url: shareUrl,
         });
-      } else {
-        await copyResult();
+        return;
       }
     } catch {
-      console.log("Share cancelled");
+      // user cancelled, or the platform rejected it — fall back to a download
     }
+    await downloadBadge();
   }
 
   return (
@@ -370,51 +648,105 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
 
       <CardContent className="space-y-4">
         {done ? (
-          <div className="space-y-4">
-            <div className="text-base">
-              You finished the round! Final score:{" "}
-              <span className="font-semibold">{score}</span>/{round.length}
-            </div>
+          (() => {
+            const tier = getTier(score, round.length);
+            const TierIcon = tier.icon;
+            return (
+              <div className="space-y-4">
+                <div className="text-base">
+                  You finished the round! Final score:{" "}
+                  <span className="font-semibold">{score}</span>/{round.length}
+                </div>
 
-            <div className="flex flex-wrap gap-3">
-              <Button asChild variant="outline" className="rounded-2xl">
-                <a
-                  href={facebookShareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {/* Earned badge preview */}
+                <div
+                  className="rounded-3xl border p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-5"
+                  style={{
+                    background: `linear-gradient(135deg, ${tier.from}, ${tier.to})`,
+                    borderColor: `${tier.accent}33`,
+                  }}
                 >
-                  <Facebook className="h-4 w-4 mr-2" />
-                  Share on Facebook
-                </a>
-              </Button>
+                  {badgeUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={badgeUrl}
+                      alt={`${tier.label} badge`}
+                      className="h-28 w-28 rounded-2xl shadow-sm bg-white object-contain flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="h-20 w-20 rounded-full bg-white/70 flex items-center justify-center flex-shrink-0">
+                      <TierIcon className="h-10 w-10" style={{ color: tier.accent }} />
+                    </div>
+                  )}
+                  <div className="text-center sm:text-left">
+                    <div
+                      className="text-xs font-medium uppercase tracking-wide"
+                      style={{ color: tier.accent }}
+                    >
+                      Your badge
+                    </div>
+                    <div className="text-xl font-semibold" style={{ color: tier.accent }}>
+                      {tier.label}
+                    </div>
+                    <div className="text-sm text-foreground/80 mt-1">{tier.blurb}</div>
+                  </div>
+                </div>
 
-              <Button
-                variant="outline"
-                className="rounded-2xl"
-                onClick={copyResult}
-              >
-                <Copy className="h-4 w-4 mr-2" />
-                Copy result
-              </Button>
+                <div className="flex flex-wrap gap-3">
+                  {canShareFiles ? (
+                    <Button
+                      className="rounded-2xl"
+                      onClick={shareBadge}
+                      disabled={generatingBadge}
+                    >
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share badge image
+                    </Button>
+                  ) : null}
 
-              <Button
-                variant="outline"
-                className="rounded-2xl"
-                onClick={nativeShare}
-              >
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
-              </Button>
+                  <Button
+                    variant={canShareFiles ? "outline" : "default"}
+                    className="rounded-2xl"
+                    onClick={downloadBadge}
+                    disabled={generatingBadge}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download badge
+                  </Button>
 
-              <Button onClick={restart} className="rounded-2xl">
-                Play again
-              </Button>
-            </div>
+                  <Button asChild variant="outline" className="rounded-2xl">
+                    <a
+                      href={facebookShareUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Facebook className="h-4 w-4 mr-2" />
+                      Share on Facebook
+                    </a>
+                  </Button>
 
-            <div className="text-xs text-muted-foreground">
-              TikTok does not offer a simple web share button for score text like Facebook does, so the best option here is using Share or Copy result.
-            </div>
-          </div>
+                  <Button
+                    variant="outline"
+                    className="rounded-2xl"
+                    onClick={copyResult}
+                  >
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy result
+                  </Button>
+
+                  <Button onClick={restart} className="rounded-2xl">
+                    Play again
+                  </Button>
+                </div>
+
+                <div className="text-xs text-muted-foreground">
+                  For Instagram, TikTok, or texting a friend, use &ldquo;Share badge
+                  image&rdquo; (or download it and attach it yourself) — Facebook&rsquo;s
+                  button shares a link rather than the image itself.
+                </div>
+              </div>
+            );
+          })()
         ) : (
           <>
             <div className="text-xs text-muted-foreground">{q.category}</div>
