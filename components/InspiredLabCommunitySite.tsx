@@ -124,6 +124,7 @@ function TopNav() {
   const items = useMemo(
     () => [
       { label: "Programs", href: "#programs" },
+      { label: "Teacher Resources", href: "#teacher-resources" },
       { label: "About", href: "#about" },
       { label: "Resources", href: "#resources" },
       { label: "Contact", href: "#contact" },
@@ -666,6 +667,148 @@ function Programs() {
 }
 
 
+function TeacherResources() {
+  const teacherResources = useMemo(
+    () => [
+      {
+        title: "SOS! Inquiry Planning Template",
+        category: "Inquiry-Based Learning",
+        author: "Hilary Ferguson",
+        desc: "A simple template for quick inquiry-based forward planning across three categories — Strategy, Object (to think with), and Space. Use for one class, or add rows to plan multiple classes per week.",
+        links: [
+          {
+            label: "Open Google Doc template",
+            href: "https://docs.google.com/document/d/12LlExF2tC-QiGe6livEZed4bWsJS1srM/copy",
+          },
+        ],
+      },
+      {
+        title: "Community Partner Letter Bundle",
+        category: "Community Engagement",
+        author: "Hilary Ferguson",
+        desc: "Letter templates for connecting with businesses, organizations, or individuals whose work relates to what's being taught in class — plus a parent letter with a detachable permission slip.",
+        links: [
+          {
+            label: "Community Partnership Letter (Letter size)",
+            href: "https://docs.google.com/document/d/1k05U7bwcuWwVWxmO0KSF_y_FEDXxVI0O/copy",
+          },
+          {
+            label: "Letter to Parents (Legal size)",
+            href: "https://docs.google.com/document/d/1oXYzxh6dBKd1zYZxowUa6GqDJ2r6ey6p/copy",
+          },
+        ],
+      },
+      {
+        title: "Group Accountability Form",
+        category: "Project Based Learning",
+        author: "Hilary Ferguson",
+        desc: "Lets each group member assess peers and themselves on their role and contribution, so trends can be tracked individually and grades assigned accordingly.",
+        links: [
+          {
+            label: "Open Google Doc template",
+            href: "https://docs.google.com/document/d/1tfHMuVri7k3GFV3Z6Bqq-3VF6CUO8LiqFOcOOEXcFB0/copy",
+          },
+        ],
+      },
+      {
+        title: "PBL Brainstormer",
+        category: "Project Based Learning",
+        author: "Hilary Ferguson",
+        desc: "A starting point for planning a Project-Based Learning unit — the challenge, big idea, curricular objectives, assessments, milestones, and possible community collaborations, all on one page.",
+        links: [
+          {
+            label: "Open fillable PDF",
+            href: "https://drive.google.com/file/d/1NxaRF2-ke8yNlZpyfW7bHfhC8GzSL70I/view?usp=sharing",
+          },
+        ],
+      },
+      {
+        title: "Osmosis Inquiry Scaffold",
+        category: "Inquiry-Based Learning",
+        desc: "A graphic organizer to scaffold student thinking around the concept of osmosis.",
+        links: [
+          {
+            label: "Open Canva template",
+            href: "https://www.canva.com/design/DAFvl0WcaHM/VQ70mLjbL-ekOXUP3dXPrA/view?utm_content=DAFvl0WcaHM&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview",
+          },
+        ],
+      },
+      {
+        title: "Osmosis Kinesthetic Activity",
+        category: "Whole Body Learning",
+        author: "Hilary Ferguson",
+        desc: "A whole-body classroom activity using chairs and movement to model a selectively permeable membrane and osmosis — a good engage activity for the topic.",
+        links: [
+          {
+            label: "Open Google Doc template",
+            href: "https://docs.google.com/document/d/1OAuQ9U3RbIHH1geDsILe20s675anR4WWeEUcDhh2Ku4/copy",
+          },
+        ],
+      },
+    ],
+    []
+  );
+
+  return (
+    <section
+      id="teacher-resources"
+      className="relative bg-white py-20 sm:py-24 overflow-hidden"
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeader
+          eyebrow="InspirED Lab Teacher Resources"
+          title="Ready-to-use templates for your classroom"
+          desc="Designs created by our community, for our community. All resources are free and editable — download, use, share, and adapt them to your needs."
+        />
+
+        <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {teacherResources.map((r) => (
+            <Card
+              key={r.title}
+              className="group h-full flex flex-col rounded-3xl border-2 border-transparent hover:border-[oklch(var(--brand-sky)/0.2)] hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
+            >
+              <CardHeader className="space-y-3">
+                <Badge className="w-fit rounded-full bg-[oklch(var(--brand-sky)/0.15)] text-[oklch(var(--brand-orange))] border-0 font-medium px-3 py-1 text-xs">
+                  {r.category}
+                </Badge>
+                <div className="space-y-2">
+                  <CardTitle className="text-lg sm:text-xl leading-tight group-hover:text-[oklch(var(--brand-orange))] transition-colors">
+                    {r.title}
+                  </CardTitle>
+                  <CardDescription className="text-sm leading-relaxed">
+                    {r.desc}
+                  </CardDescription>
+                  {r.author && (
+                    <div className="text-xs text-muted-foreground pt-1">
+                      By {r.author}
+                    </div>
+                  )}
+                </div>
+              </CardHeader>
+
+              <CardContent className="flex-1 flex flex-col justify-end space-y-2">
+                {r.links.map((link) => (
+                  <Button
+                    key={link.href}
+                    asChild
+                    variant="outline"
+                    className="w-full rounded-2xl h-11 font-medium hover:bg-[oklch(var(--brand-sky)/0.08)] hover:text-[oklch(var(--brand-sky))] hover:border-[oklch(var(--brand-sky)/0.3)] transition-all"
+                  >
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">
+                      {link.label}
+                      <ExternalLink className="h-4 w-4 ml-2" />
+                    </a>
+                  </Button>
+                ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function AboutVisionFaq() {
   const faq = [
     {
@@ -1189,6 +1332,7 @@ export default function InspiredLabCommunitySite() {
       <main className="flex-1">
         <Hero />
         <Programs />
+        <TeacherResources />
         <AboutVisionFaq />
         <Resources />
       </main>
