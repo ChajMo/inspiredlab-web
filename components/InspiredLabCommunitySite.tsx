@@ -51,7 +51,7 @@ const BRAND = {
   name: "InspirED Lab",
   tagline: "Science education rooted in community",
   blurb: [
-  "InspirED Lab is a nonprofit organization devoted to connecting classrooms, communities and Caribbean culture to real-world science.",
+  "InspirED Lab (pronounced 'Inspire-ED Lab') is a nonprofit organization devoted to connecting classrooms, communities and Caribbean culture to real-world science.",
   "Whether we’re performing hands-on research experiments with students or engaging in discussions about science and how it impacts us, we seek to make meaningful links between scientific inquiry and everyday life. We believe science is for everyone, and every person should feel empowered to advance the sustainable development of their communities and country."
 ],
   location: "Saint Kitts & Nevis",
