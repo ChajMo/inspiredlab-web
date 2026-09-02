@@ -435,9 +435,10 @@ const QUESTION_BANK: TriviaQ[] = [
 },
 {
   category: "Culture",
-  question: "Son cubano, the genre that gave rise to salsa music, originated in which country?",
+  question: "\"Son,\" the genre widely considered the direct ancestor of salsa music, originated in which country?",
   choices: ["Cuba", "Puerto Rico", "Dominican Republic", "Panama"],
   answerIndex: 0,
+  explain: "Son cubano developed in eastern Cuba in the late 19th century and became the rhythmic foundation for salsa decades later.",
 },
 
 // Dominica
@@ -784,7 +785,7 @@ const QUESTION_BANK: TriviaQ[] = [
 },
 {
   category: "Science",
-  question: "The Cuban crocodile, one of the most endangered crocodile species on Earth, survives naturally in only two places, both in which country?",
+  question: "One of the most endangered crocodile species on Earth survives naturally in only two small wetland habitats — a swamp and an island — both in the same country. Which one?",
   choices: ["Cuba", "Jamaica", "The Bahamas", "Trinidad and Tobago"],
   answerIndex: 0,
   explain: "Wild Cuban crocodiles are now found naturally only in Cuba's Zapata Swamp and on the Isle of Youth.",
@@ -863,9 +864,10 @@ const QUESTION_BANK: TriviaQ[] = [
 },
 {
   category: "Geography",
-  question: "The Pride of Barbados, also called the Dwarf Poinciana, is the national flower of which country?",
+  question: "This bright red-and-yellow flowering shrub, also called the Dwarf Poinciana, is the national flower of which country?",
   choices: ["Barbados", "Grenada", "Saint Lucia", "Trinidad and Tobago"],
   answerIndex: 0,
+  explain: "Caesalpinia pulcherrima is commonly nicknamed the \"Pride of Barbados\" and is Barbados' national flower.",
 },
 {
   category: "Geography",
@@ -933,9 +935,10 @@ const QUESTION_BANK: TriviaQ[] = [
 },
 {
   category: "Geography",
-  question: "The Chaconia, nicknamed the \"Pride of Trinidad and Tobago,\" is the national flower of which country?",
+  question: "The Chaconia (Warszewiczia coccinea), a fiery red forest flower, is the national flower of which country?",
   choices: ["Trinidad and Tobago", "Grenada", "Jamaica", "Barbados"],
   answerIndex: 0,
+  explain: "The Chaconia is also nicknamed the \"Pride of Trinidad and Tobago.\"",
 },
 
 // National mottos
@@ -1075,6 +1078,20 @@ function shuffle<T>(arr: T[]) {
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy;
+}
+
+// Randomizes the order of a single question's answer choices (and remaps
+// answerIndex to match) so the correct answer doesn't always land in the
+// same position. Question data in QUESTION_BANK is written with whatever
+// choice order reads best in the source file — this is what actually
+// decides what the player sees.
+function shuffleChoices(q: TriviaQ): TriviaQ {
+  const order = shuffle(q.choices.map((_, idx) => idx));
+  return {
+    ...q,
+    choices: order.map((idx) => q.choices[idx]),
+    answerIndex: order.indexOf(q.answerIndex),
+  };
 }
 
 // ---- Score badges ----
@@ -1234,7 +1251,7 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
   const [canShareFiles, setCanShareFiles] = useState(false);
 
   useEffect(() => {
-    setRound(shuffle(QUESTION_BANK).slice(0, maxQuestions));
+    setRound(shuffle(QUESTION_BANK).slice(0, maxQuestions).map(shuffleChoices));
     setI(0);
     setScore(0);
     setPicked(null);
@@ -1313,7 +1330,7 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
   }
 
   function restart() {
-    setRound(shuffle(QUESTION_BANK).slice(0, maxQuestions));
+    setRound(shuffle(QUESTION_BANK).slice(0, maxQuestions).map(shuffleChoices));
     setI(0);
     setScore(0);
     setPicked(null);
