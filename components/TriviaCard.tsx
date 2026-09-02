@@ -21,7 +21,7 @@ import {
 import { getBadgeTier, type BadgeTier } from "@/lib/trivia-badges";
 
 type TriviaQ = {
-  category: "Culture" | "History" | "Science";
+  category: "Culture" | "History" | "Science" | "Geography";
   question: string;
   choices: string[];
   answerIndex: number;
@@ -35,6 +35,7 @@ const CATEGORY_STYLES: Record<TriviaQ["category"], { accent: string; bg: string 
   Culture: { accent: "#B45B18", bg: "#FFE8D2" },
   History: { accent: "#1D4E89", bg: "#DCEEFC" },
   Science: { accent: "#0F7A55", bg: "#D6F5EA" },
+  Geography: { accent: "#6B3FA0", bg: "#EEE3FB" },
 };
 
 const ANSWER_LETTERS = ["A", "B", "C", "D"];
@@ -286,6 +287,784 @@ const QUESTION_BANK: TriviaQ[] = [
   answerIndex: 1,
   category: "Culture",
   explain: "Carnival is deeply rooted in community life and cultural expression across the Caribbean."
+},
+
+// --- Wider Caribbean expansion: Antigua & Barbuda, The Bahamas, Barbados,
+// Belize, Cuba, Dominica, Dominican Republic, Grenada, Guyana, Puerto Rico,
+// Saint Lucia, Saint Vincent & the Grenadines, Suriname, Martinique &
+// Guadeloupe, Aruba & Curaçao, and smaller territories — added so the game
+// represents the whole Caribbean, not just the larger, more familiar nations.
+
+// Antigua and Barbuda
+{
+  category: "Geography",
+  question: "What is the capital of Antigua and Barbuda?",
+  choices: ["St. John's", "Bridgetown", "Basseterre", "Castries"],
+  answerIndex: 0,
+  explain: "St. John's is the capital and largest city of Antigua and Barbuda.",
+},
+{
+  category: "Geography",
+  question: "Which seabird, famous for the male's dramatic inflatable red throat pouch, is Antigua and Barbuda's national bird?",
+  choices: ["Magnificent frigatebird", "Caribbean flamingo", "Brown pelican", "Roseate spoonbill"],
+  answerIndex: 0,
+  explain: "Barbuda's Codrington Lagoon hosts one of the largest magnificent frigatebird breeding colonies in the world.",
+},
+{
+  category: "Culture",
+  question: "Antiguan cricket legend Sir Vivian Richards is remembered for what remarkable feat as West Indies captain?",
+  choices: [
+    "Never losing a Test series as captain",
+    "Winning the Nobel Peace Prize",
+    "Founding the Caribbean's first university",
+    "Leading Antigua's independence movement",
+  ],
+  answerIndex: 0,
+  explain: "Viv Richards captained the West Indies from 1984-1991 without ever losing a Test series, and is regarded as one of cricket's greatest batsmen.",
+},
+
+// The Bahamas
+{
+  category: "Geography",
+  question: "What is the capital of The Bahamas?",
+  choices: ["Nassau", "Freeport", "Bridgetown", "George Town"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Which bird, seen wading in large flocks in shallow lagoons, is the national bird of The Bahamas?",
+  choices: ["Caribbean flamingo", "Frigatebird", "Roseate spoonbill", "Brown pelican"],
+  answerIndex: 0,
+  explain: "The West Indian (Caribbean) flamingo is the national bird of The Bahamas, seen in large flocks on islands like Great Inagua.",
+},
+{
+  category: "Culture",
+  question: "Junkanoo, a street parade of costumes, drums, cowbells, and horns, is held every Boxing Day and New Year's Day in which country?",
+  choices: ["The Bahamas", "Jamaica", "Barbados", "Trinidad and Tobago"],
+  answerIndex: 0,
+  explain: "Junkanoo is The Bahamas' signature festival and music tradition, with roots going back centuries.",
+},
+{
+  category: "Culture",
+  question: "Bahamian actor Sidney Poitier made history in 1963 by becoming the first Black actor to do what?",
+  choices: [
+    "Win the Academy Award for Best Actor",
+    "Direct a major Hollywood film",
+    "Host the Academy Awards",
+    "Win a Grammy Award",
+  ],
+  answerIndex: 0,
+  explain: "Sidney Poitier won the Oscar for Best Actor for Lilies of the Field (1963).",
+},
+
+// Barbados
+{
+  category: "Geography",
+  question: "What is the capital of Barbados?",
+  choices: ["Bridgetown", "Nassau", "Castries", "Kingstown"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Cou-cou and flying fish, a cornmeal-and-okra dish served with steamed fish, is the national dish of which country?",
+  choices: ["Barbados", "Belize", "Guyana", "The Bahamas"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "In 2021, Barbados named its 11th National Hero — a global music and fashion icon. Who is it?",
+  choices: ["Rihanna", "Nicki Minaj", "Grace Jones", "Shontelle"],
+  answerIndex: 0,
+  explain: "Rihanna (Robyn Rihanna Fenty) was named a National Hero of Barbados in 2021, the only living person to hold the honor.",
+},
+{
+  category: "Culture",
+  question: "What is Barbados' traditional fife-and-drum street music, blending British military band and African rhythmic traditions, called?",
+  choices: ["Tuk band", "Bouyon", "Zouk", "Benna"],
+  answerIndex: 0,
+},
+
+// Belize
+{
+  category: "Geography",
+  question: "What is the capital of Belize? (Hint: it's not the country's largest city.)",
+  choices: ["Belmopan", "Belize City", "San Ignacio", "Orange Walk"],
+  answerIndex: 0,
+  explain: "The capital moved from Belize City to Belmopan after Hurricane Hattie devastated the coast in 1961.",
+},
+{
+  category: "Geography",
+  question: "Belize's national animal, sometimes nicknamed the 'mountain cow,' is actually what kind of animal?",
+  choices: ["A tapir", "A jaguar", "A manatee", "A peccary"],
+  answerIndex: 0,
+  explain: "Baird's tapir is Belize's national animal, despite its cow-like nickname.",
+},
+{
+  category: "History",
+  question: "Which language is the sole official language of Belize, making it unique in Central America?",
+  choices: ["English", "Spanish", "French", "Dutch"],
+  answerIndex: 0,
+  explain: "Belize (formerly British Honduras) is the only Central American country with English as its official language, alongside widely spoken Belizean Kriol and Spanish.",
+},
+{
+  category: "Culture",
+  question: "Punta, a music and dance style strongly associated with Belize, originated with which people?",
+  choices: ["The Garifuna", "The Maya", "The Taíno", "The Kalinago"],
+  answerIndex: 0,
+},
+
+// Cuba
+{
+  category: "Geography",
+  question: "The tocororo (Cuban trogon), Cuba's national bird, is notable for what feature?",
+  choices: [
+    "Its feathers match the colors of the Cuban flag",
+    "It cannot be found anywhere except one mountain range",
+    "It is the largest bird in the Caribbean",
+    "It only sings once a year",
+  ],
+  answerIndex: 0,
+  explain: "The tocororo's red, white, and blue plumage mirrors the Cuban flag, part of why it was chosen as a national symbol.",
+},
+{
+  category: "Science",
+  question: "In 1881, Cuban physician Carlos Finlay proposed that mosquitoes transmit which disease — a discovery later confirmed and used to help build the Panama Canal?",
+  choices: ["Yellow fever", "Malaria", "Dengue fever", "Zika virus"],
+  answerIndex: 0,
+  explain: "Finlay's mosquito theory of yellow fever transmission was initially doubted but proved correct, transforming public health efforts across the tropics.",
+},
+{
+  category: "Culture",
+  question: "Son cubano, the genre that gave rise to salsa music, originated in which country?",
+  choices: ["Cuba", "Puerto Rico", "Dominican Republic", "Panama"],
+  answerIndex: 0,
+},
+
+// Dominica
+{
+  category: "Geography",
+  question: "What is the capital of Dominica?",
+  choices: ["Roseau", "Portsmouth", "Marigot", "Castries"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The critically endangered Sisserou parrot, found only in Dominica, appears on the country's what?",
+  choices: ["National flag", "Currency only", "Passport cover only", "Coast guard flag"],
+  answerIndex: 0,
+  explain: "The Sisserou (Imperial amazon) parrot is Dominica's national bird and is featured on its national flag.",
+},
+{
+  category: "Culture",
+  question: "Bouyon, a fast-tempo music genre blending local folk styles with electronic instruments, originated in the 1980s in which country?",
+  choices: ["Dominica", "Dominican Republic", "Grenada", "Saint Lucia"],
+  answerIndex: 0,
+},
+{
+  category: "History",
+  question: "Dominica's Kalinago Territory holds what distinction in the Caribbean?",
+  choices: [
+    "It's the only officially recognized indigenous Carib (Kalinago) territory in the Caribbean",
+    "It's the largest rainforest reserve in the Caribbean",
+    "It's the only duty-free zone in the Eastern Caribbean",
+    "It's the site of the Caribbean's oldest university",
+  ],
+  answerIndex: 0,
+},
+
+// Dominican Republic
+{
+  category: "Geography",
+  question: "Santo Domingo, capital of the Dominican Republic, holds what distinction?",
+  choices: [
+    "It's the oldest continuously inhabited European-founded city in the Americas",
+    "It's the highest-altitude capital in the Caribbean",
+    "It was the first Caribbean capital to abolish slavery",
+    "It's the only Caribbean capital not on a coastline",
+  ],
+  answerIndex: 0,
+  explain: "Santo Domingo was founded in 1496, making it the oldest continuously inhabited city of European origin in the Americas.",
+},
+{
+  category: "Geography",
+  question: "The palmchat (cigua palmera), known for building giant communal nests in palm trees, is the national bird of which country?",
+  choices: ["Dominican Republic", "Cuba", "Haiti", "Puerto Rico"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Merengue and bachata, both recognized by UNESCO as Intangible Cultural Heritage, both originated in which country?",
+  choices: ["Dominican Republic", "Cuba", "Puerto Rico", "Colombia"],
+  answerIndex: 0,
+},
+
+// Grenada
+{
+  category: "Geography",
+  question: "Grenada is nicknamed the \"Spice Isle\" because it's one of the world's leading producers of which spice?",
+  choices: ["Nutmeg", "Cinnamon", "Vanilla", "Saffron"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Grenada dove, one of the most endangered doves in the world and found nowhere else on Earth, is Grenada's what?",
+  choices: ["National bird", "National flower", "Coat of arms centerpiece only", "Unofficial mascot only"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Sprinter Kirani James made history for Grenada at the 2012 London Olympics by doing what?",
+  choices: [
+    "Winning Grenada's first-ever Olympic medal (gold in the 400m)",
+    "Becoming the youngest Olympic torch bearer",
+    "Winning Grenada's first Olympic medal in swimming",
+    "Setting a world record in the marathon",
+  ],
+  answerIndex: 0,
+},
+
+// Guyana
+{
+  category: "Geography",
+  question: "The hoatzin, a bird whose chicks are born with claws on their wings, is a national symbol of which country?",
+  choices: ["Guyana", "Suriname", "Belize", "Trinidad and Tobago"],
+  answerIndex: 0,
+  explain: "The hoatzin (also called the Canje pheasant) is one of Guyana's national birds, notable for its prehistoric-looking wing claws as a chick.",
+},
+{
+  category: "Science",
+  question: "Victoria amazonica, native to Guyana's rivers, is remarkable for being the world's largest what?",
+  choices: ["Water lily", "Freshwater fish", "River crab", "Amphibian"],
+  answerIndex: 0,
+  explain: "Its enormous pads can grow wide enough to support the weight of a small child, and it's Guyana's national flower.",
+},
+{
+  category: "Culture",
+  question: "Pepperpot, a slow-cooked meat stew flavored with cassareep (a cassava-root reduction) and rooted in Amerindian cuisine, is a Christmas tradition in which country?",
+  choices: ["Guyana", "Jamaica", "Belize", "Trinidad and Tobago"],
+  answerIndex: 0,
+},
+{
+  category: "History",
+  question: "Guyana holds what distinction on the South American mainland?",
+  choices: [
+    "It's the only English-speaking country in mainland South America",
+    "It's the only country in South America without a coastline",
+    "It's the smallest country in South America",
+    "It's the only country in South America entirely south of the equator",
+  ],
+  answerIndex: 0,
+  explain: "Guyana, formerly British Guiana, is the only English-speaking country on the South American mainland.",
+},
+
+// Puerto Rico
+{
+  category: "Geography",
+  question: "Puerto Rico's beloved unofficial symbol is a tiny tree frog named for its distinctive two-note call. What is it called?",
+  choices: ["The coquí", "The crapaud", "The tocororo", "The sisserou"],
+  answerIndex: 0,
+  explain: "The coquí is found only in Puerto Rico and is famous for its \"ko-KEE\" call.",
+},
+{
+  category: "Culture",
+  question: "Mofongo — fried, mashed plantains typically mixed with garlic and pork cracklings — is an iconic dish of which territory?",
+  choices: ["Puerto Rico", "Cuba", "Dominican Republic", "Jamaica"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Baseball legend Roberto Clemente, the first Latin American player inducted into the Hall of Fame, died in 1972 while doing what?",
+  choices: [
+    "Personally delivering earthquake relief supplies to Nicaragua",
+    "Playing in the World Series",
+    "Coaching a youth baseball clinic",
+    "Testing a new stadium",
+  ],
+  answerIndex: 0,
+  explain: "Clemente's plane crashed off Puerto Rico while he was accompanying relief supplies for earthquake victims in Nicaragua.",
+},
+{
+  category: "Culture",
+  question: "Which music genre, now a global phenomenon, emerged from Puerto Rico's underground club scene in the 1990s?",
+  choices: ["Reggaetón", "Merengue", "Zouk", "Dancehall"],
+  answerIndex: 0,
+},
+
+// Saint Lucia
+{
+  category: "Geography",
+  question: "What is the capital of Saint Lucia?",
+  choices: ["Castries", "Vieux Fort", "Soufrière", "Gros Islet"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Saint Lucia parrot (locally called \"Jacquot\"), found only on the island, was declared what in 1979?",
+  choices: ["The national bird", "The national animal", "A protected UNESCO species", "The national flower"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Green fig and saltfish — unripe banana served with salted cod — is the national dish of which country?",
+  choices: ["Saint Lucia", "Saint Vincent and the Grenadines", "Grenada", "Dominica"],
+  answerIndex: 0,
+},
+{
+  category: "History",
+  question: "With economist Sir Arthur Lewis and poet Derek Walcott both born there, Saint Lucia holds a Guinness World Record for what?",
+  choices: [
+    "Most Nobel Prize laureates per capita of any country",
+    "Most Olympic medals per capita",
+    "Most languages spoken per capita",
+    "Most UNESCO World Heritage Sites per capita",
+  ],
+  answerIndex: 0,
+  explain: "Two Nobel laureates from an island of roughly 185,000 people is a genuinely exceptional record.",
+},
+
+// Saint Vincent and the Grenadines
+{
+  category: "Geography",
+  question: "What is the capital of Saint Vincent and the Grenadines?",
+  choices: ["Kingstown", "Kingston", "Castries", "Bridgetown"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Saint Vincent parrot, found only on the island, is which of the following?",
+  choices: ["The national bird", "The national animal", "The national fish", "The national insect"],
+  answerIndex: 0,
+},
+{
+  category: "Science",
+  question: "Founded in 1765, the Saint Vincent Botanic Gardens holds what distinction?",
+  choices: [
+    "It's the oldest botanical garden in the Western Hemisphere",
+    "It's the largest rainforest reserve in the Caribbean",
+    "It has the world's tallest palm tree",
+    "It's the only garden in the world growing breadfruit",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Roasted breadfruit and fried jackfish is the national dish of which country?",
+  choices: ["Saint Vincent and the Grenadines", "Saint Lucia", "Grenada", "Dominica"],
+  answerIndex: 0,
+},
+
+// Suriname
+{
+  category: "Geography",
+  question: "What is the capital of Suriname?",
+  choices: ["Paramaribo", "Georgetown", "Cayenne", "Bridgetown"],
+  answerIndex: 0,
+},
+{
+  category: "History",
+  question: "Surinamese writer and resistance fighter Anton de Kom, author of an influential anti-colonial history, died in 1945 in what circumstance?",
+  choices: [
+    "In a Nazi concentration camp, days before liberation",
+    "Leading an armed uprising",
+    "In exile in the Netherlands",
+    "Shipwrecked returning to Suriname",
+  ],
+  answerIndex: 0,
+  explain: "De Kom joined the Dutch resistance in WWII, was arrested by the Nazis, and died of tuberculosis at Camp Sandbostel just five days before the camp's liberation.",
+},
+{
+  category: "Culture",
+  question: "Pom — a baked casserole of chicken and pomtajer, a taro-like root — is a celebration dish from which country?",
+  choices: ["Suriname", "Guyana", "Belize", "Dominican Republic"],
+  answerIndex: 0,
+},
+{
+  category: "History",
+  question: "Suriname holds what linguistic distinction in South America?",
+  choices: [
+    "It's the only Dutch-speaking country in South America",
+    "It's the only French-speaking country in South America",
+    "It has no official language",
+    "It's the only country in South America with two national languages",
+  ],
+  answerIndex: 0,
+  explain: "Suriname's official language is Dutch, a legacy of Dutch colonization — though Sranan Tongo, an English-based creole, is a widely spoken lingua franca.",
+},
+{
+  category: "Culture",
+  question: "In Paramaribo, Suriname, a popular Sunday-morning tradition pits caged songbirds against each other in what kind of contest?",
+  choices: ["A singing contest", "A racing contest", "A nest-building contest", "A feeding contest"],
+  answerIndex: 0,
+},
+
+// Martinique & Guadeloupe
+{
+  category: "Science",
+  question: "The 1902 eruption of Mount Pelée destroyed the city of Saint-Pierre in Martinique in minutes, killing roughly 30,000 people. What does this event hold the record for?",
+  choices: [
+    "The deadliest volcanic eruption of the 20th century",
+    "The largest volcanic eruption ever recorded",
+    "The first volcanic eruption ever documented",
+    "The longest-lasting volcanic eruption in history",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "History",
+  question: "Martinican poet and politician Aimé Césaire co-founded which influential literary and political movement?",
+  choices: ["Négritude", "Pan-Africanism", "Rastafari", "Garveyism"],
+  answerIndex: 0,
+  explain: "Césaire co-founded Négritude alongside Léopold Sédar Senghor and Léon Damas, celebrating Black identity and culture in the face of colonialism.",
+},
+{
+  category: "Culture",
+  question: "Zouk, an upbeat dance music genre pioneered by the band Kassav', emerged in the early 1980s from which islands?",
+  choices: ["Guadeloupe and Martinique", "Trinidad and Tobago", "Cuba and Puerto Rico", "Jamaica and Haiti"],
+  answerIndex: 0,
+},
+
+// Aruba & Curaçao
+{
+  category: "History",
+  question: "Papiamento, a creole blending Portuguese, Spanish, Dutch, English, and African influences, is a co-official language of which islands?",
+  choices: ["Aruba and Curaçao", "Martinique and Guadeloupe", "Trinidad and Tobago", "The Bahamas"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Willemstad, the capital of Curaçao, is a UNESCO World Heritage Site famous for what?",
+  choices: [
+    "Its rows of brightly painted Dutch colonial buildings",
+    "Its ancient Taíno cave paintings",
+    "Being the Caribbean's tallest lighthouse",
+    "Its underground coral reef city",
+  ],
+  answerIndex: 0,
+},
+
+// Smaller territories
+{
+  category: "Science",
+  question: "Montserrat's capital, Plymouth, has been abandoned and buried since 1995 because of what?",
+  choices: [
+    "Ongoing eruptions of the Soufrière Hills volcano",
+    "Repeated hurricane flooding",
+    "A major earthquake",
+    "Rising sea levels",
+  ],
+  answerIndex: 0,
+  explain: "Plymouth is still technically Montserrat's capital on paper, even though it's been uninhabitable for decades — government functions moved to Brades.",
+},
+{
+  category: "Geography",
+  question: "The Turks and Caicos Islands' coat of arms features a queen conch shell, a spiny lobster, and which distinctive plant?",
+  choices: ["The Turk's Head cactus", "The breadfruit tree", "The royal palm", "The bougainvillea"],
+  answerIndex: 0,
+},
+{
+  category: "Culture",
+  question: "Quelbe, an official traditional music style blending European quadrille, African rhythms, and satirical lyrics, was designated in 2003 by which territory?",
+  choices: ["The U.S. Virgin Islands", "The British Virgin Islands", "The Cayman Islands", "Anguilla"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Cayman Islands are best known internationally as a major hub for which industry?",
+  choices: ["Offshore banking and finance", "Coffee production", "Shipbuilding", "Textile manufacturing"],
+  answerIndex: 0,
+},
+
+// Animals found only in the Caribbean
+{
+  category: "Science",
+  question: "The solenodon, found only on Hispaniola and Cuba, is one of very few mammals on Earth with what unusual trait?",
+  choices: ["A venomous bite", "The ability to fly", "A shell like a turtle", "Six legs"],
+  answerIndex: 0,
+  explain: "Solenodons deliver venom through grooved teeth — an extremely rare trait among mammals — and their lineage dates back tens of millions of years, essentially unchanged.",
+},
+{
+  category: "Science",
+  question: "The Cuban crocodile, one of the most endangered crocodile species on Earth, survives naturally in only two places, both in which country?",
+  choices: ["Cuba", "Jamaica", "The Bahamas", "Trinidad and Tobago"],
+  answerIndex: 0,
+  explain: "Wild Cuban crocodiles are now found naturally only in Cuba's Zapata Swamp and on the Isle of Youth.",
+},
+{
+  category: "Science",
+  question: "Believed extinct for decades, the Jamaican iguana was rediscovered in 1990 in Jamaica's Hellshire Hills after being found by what?",
+  choices: ["A hunter's dog", "A fisherman's net", "A hiking group", "A scientific expedition's camera trap"],
+  answerIndex: 0,
+  explain: "The Jamaican iguana had been considered extinct since the 1940s until a hog hunter's dog chased one into a hollow log in 1990.",
+},
+{
+  category: "Science",
+  question: "The West Indian manatee, found in coastal waters and rivers throughout the Caribbean, is most closely related to which land animal?",
+  choices: ["The elephant", "The hippopotamus", "The seal", "The dolphin"],
+  answerIndex: 0,
+  explain: "Despite living entirely in water, manatees' closest living relatives are elephants, sharing a common ancestor from tens of millions of years ago.",
+},
+{
+  category: "Science",
+  question: "Caribbean anole lizards are famous among evolutionary biologists because on island after island...",
+  choices: [
+    "Similar sets of species evolved independently, a textbook example of repeated evolution",
+    "They are the only lizards in the world capable of true flight",
+    "They can survive fully submerged underwater for hours",
+    "They grow larger than any other lizards on Earth",
+  ],
+  answerIndex: 0,
+  explain: "Caribbean anoles are one of the best-studied examples anywhere of repeated, independent evolution producing similar species under similar conditions.",
+},
+{
+  category: "Science",
+  question: "The hutia, a large rodent found on islands like Cuba, Jamaica, and the Bahamas, is notable because several species...",
+  choices: [
+    "Are found nowhere else on Earth and some are critically endangered",
+    "Can regenerate lost limbs",
+    "Live exclusively underwater",
+    "Are the smallest mammals in the world",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Science",
+  question: "Grande Riviere beach in Trinidad is one of the world's most important nesting sites for which giant marine reptile?",
+  choices: ["The leatherback sea turtle", "The green sea turtle", "The saltwater crocodile", "The marine iguana"],
+  answerIndex: 0,
+  explain: "Trinidad's beaches host one of the densest concentrations of nesting leatherback turtles found anywhere in the world.",
+},
+{
+  category: "Science",
+  question: "The Trinidad piping-guan, locally called the \"pawi,\" is a critically endangered bird found only in...",
+  choices: ["Trinidad's forests", "Jamaica's Blue Mountains", "Cuba's Zapata Swamp", "Haiti's La Selle range"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Jamaica's national bird, nicknamed the \"doctor bird\" for its long tail streamers, is a type of what?",
+  choices: ["Hummingbird", "Parrot", "Toucan", "Falcon"],
+  answerIndex: 0,
+  explain: "The red-billed streamertail is found only in Jamaica and is celebrated for its iridescent green plumage.",
+},
+
+// National flowers
+{
+  category: "Geography",
+  question: "Declared in 1985, which plant is the national flower of Antigua and Barbuda?",
+  choices: ["Dagger Log (Antigua agave)", "Bougainvillea", "Lignum Vitae", "Yellow Elder"],
+  answerIndex: 0,
+  explain: "The Dagger Log, a type of agave (century plant), was formally declared Antigua and Barbuda's national flower in 1985.",
+},
+{
+  category: "Geography",
+  question: "The Yellow Elder, a bright yellow flowering shrub, is the national flower of which country?",
+  choices: ["The Bahamas", "Jamaica", "Saint Kitts and Nevis", "Barbados"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Pride of Barbados, also called the Dwarf Poinciana, is the national flower of which country?",
+  choices: ["Barbados", "Grenada", "Saint Lucia", "Trinidad and Tobago"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "What is the national flower of Belize?",
+  choices: ["The Black Orchid", "The Bougainvillea", "The Hibiscus", "The Poinciana"],
+  answerIndex: 0,
+  explain: "The Black Orchid was formally designated Belize's national flower by the National Symbols Act, 2025 — an actual act of parliament.",
+},
+{
+  category: "Geography",
+  question: "The mariposa (butterfly ginger lily) is recognized as which country's national flower?",
+  choices: ["Cuba", "Dominican Republic", "Puerto Rico", "Jamaica"],
+  answerIndex: 0,
+  explain: "Cuba's mariposa was declared the national flower in 1936 by a commission of scientists and cultural figures; its white blossoms are also a traditional symbol of purity and independence.",
+},
+{
+  category: "Geography",
+  question: "What is the national flower of Dominica, sometimes called \"Carib Wood\"?",
+  choices: ["Bwa Kwaib", "Bougainvillea", "Chaconia", "Yellow Elder"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Rosa de Bayahíbe became the Dominican Republic's official national flower in 2011, correcting a decree that had mistakenly named which plant instead?",
+  choices: ["The mahogany flower", "The hibiscus", "The bougainvillea", "The orchid"],
+  answerIndex: 0,
+  explain: "A 1957 decree had named the mahogany flower as national flower; a 2011 law fixed the error, making mahogany the national tree and Rosa de Bayahíbe the national flower.",
+},
+{
+  category: "Geography",
+  question: "Bougainvillea, valued for its colorful bracts rather than true flowers, is the national flower of which spice-producing island?",
+  choices: ["Grenada", "Saint Lucia", "Dominica", "Martinique"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Lignum Vitae, prized for its extremely dense, durable wood, is the national flower of which country?",
+  choices: ["Jamaica", "Cuba", "The Bahamas", "Trinidad and Tobago"],
+  answerIndex: 0,
+  explain: "Lignum Vitae (\"wood of life\") produces one of the densest woods in the world and was historically used for ship parts and tool bearings.",
+},
+{
+  category: "Geography",
+  question: "The Poinciana (Flamboyant tree), known for its brilliant red-orange blossoms, is the national flower of which country?",
+  choices: ["Saint Kitts and Nevis", "Grenada", "Antigua and Barbuda", "Barbados"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Uniquely, Saint Lucia recognizes two national flowers — the Rose and the Marguerite. What do they represent?",
+  choices: [
+    "Two rival flower festival societies on the island",
+    "The island's two main political parties",
+    "Saint Lucia's two largest towns",
+    "The island's French and British colonial eras",
+  ],
+  answerIndex: 0,
+  explain: "The Rose (La Rose) and the Marguerite (La Marguerite) societies each host an annual flower festival, and both flowers were chosen as national flowers in 1985.",
+},
+{
+  category: "Geography",
+  question: "The Soufriere Tree, named for the island's volcano, is the national flower of which country?",
+  choices: ["Saint Vincent and the Grenadines", "Dominica", "Grenada", "Saint Lucia"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Chaconia, nicknamed the \"Pride of Trinidad and Tobago,\" is the national flower of which country?",
+  choices: ["Trinidad and Tobago", "Grenada", "Jamaica", "Barbados"],
+  answerIndex: 0,
+},
+
+// National mottos
+{
+  category: "Geography",
+  question: "\"Each Endeavouring, All Achieving\" is the national motto of which country?",
+  choices: ["Antigua and Barbuda", "Saint Kitts and Nevis", "Trinidad and Tobago", "Barbados"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "The Bahamas' national motto, \"Forward, Upward, Onward, Together,\" was written by whom?",
+  choices: [
+    "Two 11-year-old schoolchildren who won a national competition",
+    "The country's first Prime Minister",
+    "A committee of university professors",
+    "An anonymous poet",
+  ],
+  answerIndex: 0,
+  explain: "Vivian F. Moultrie and Melvern B. Bowe, both 11 years old, won a national competition to craft the motto that appears on The Bahamas' coat of arms.",
+},
+{
+  category: "Geography",
+  question: "\"Pride and Industry\" is the national motto of which country?",
+  choices: ["Barbados", "Jamaica", "Grenada", "Guyana"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Belize's Latin national motto, \"Sub Umbra Floreo,\" translates to what?",
+  choices: [
+    "\"Under the Shade I Flourish\"",
+    "\"Out of Many, One People\"",
+    "\"Pride and Industry\"",
+    "\"Peace and Justice\"",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Dominica's national motto, \"Apres Bondie C'est La Ter\" (Antillean Creole), translates to what?",
+  choices: [
+    "\"After God Is the Earth\"",
+    "\"Country Above Self\"",
+    "\"Unity Makes Strength\"",
+    "\"Justice, Piety, Fidelity\"",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "\"Dios, Patria, Libertad\" (\"God, Homeland, Liberty\") is the national motto of which country?",
+  choices: ["Dominican Republic", "Cuba", "Haiti", "Puerto Rico"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Which country's national motto is \"Ever Conscious of God We Aspire, Build and Advance as One People\"?",
+  choices: ["Grenada", "Saint Lucia", "Saint Vincent and the Grenadines", "Dominica"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Guyana's national motto, set out in its constitution, is which of the following?",
+  choices: [
+    "\"One People, One Nation, One Destiny\"",
+    "\"Out of Many, One People\"",
+    "\"Together We Aspire, Together We Achieve\"",
+    "\"Country Above Self\"",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Which motto appears on Haiti's coat of arms, above an image of cannons and a liberty cap?",
+  choices: [
+    "\"L'Union Fait La Force\" (Unity Makes Strength)",
+    "\"Liberté, Égalité, Fraternité\"",
+    "\"Dios, Patria, Libertad\"",
+    "\"Sub Umbra Floreo\"",
+  ],
+  answerIndex: 0,
+  explain: "\"L'Union Fait La Force\" appears on Haiti's coat of arms; the phrase \"Liberté, Égalité, Fraternité\" is also enshrined separately in Haiti's constitution.",
+},
+{
+  category: "Geography",
+  question: "\"Out of Many, One People\" is the national motto of which country?",
+  choices: ["Jamaica", "Trinidad and Tobago", "Guyana", "Belize"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "\"Country Above Self\" is the national motto of which country?",
+  choices: ["Saint Kitts and Nevis", "Antigua and Barbuda", "Dominica", "Barbados"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "\"The Land, The People, The Light\" — granted by royal warrant in 1979 — is the national motto of which country?",
+  choices: ["Saint Lucia", "Saint Vincent and the Grenadines", "Grenada", "Dominica"],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Saint Vincent and the Grenadines' national motto, \"Pax et Justitia,\" is in which language, and what does it mean?",
+  choices: [
+    "Latin, meaning \"Peace and Justice\"",
+    "French, meaning \"Unity and Strength\"",
+    "Latin, meaning \"Land and Sea\"",
+    "Creole, meaning \"One People\"",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "Suriname's national motto, \"Justitia – Pietas – Fides,\" is Latin for what?",
+  choices: [
+    "\"Justice, Piety, Fidelity\"",
+    "\"Freedom, Equality, Unity\"",
+    "\"Peace, Progress, Prosperity\"",
+    "\"One People, One Nation\"",
+  ],
+  answerIndex: 0,
+},
+{
+  category: "Geography",
+  question: "\"Together We Aspire, Together We Achieve\" is the national motto of which country?",
+  choices: ["Trinidad and Tobago", "Jamaica", "Guyana", "Barbados"],
+  answerIndex: 0,
 }
 ];
 
