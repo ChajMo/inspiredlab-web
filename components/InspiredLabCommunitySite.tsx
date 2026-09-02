@@ -673,7 +673,7 @@ function TeacherResources() {
       {
         title: "SOS! Inquiry Planning Template",
         category: "Inquiry-Based Learning",
-        author: "Hilary Ferguson",
+        author: "Hilary Ferguson Morton",
         desc: "A simple template for quick inquiry-based forward planning across three categories — Strategy, Object (to think with), and Space. Use for one class, or add rows to plan multiple classes per week.",
         links: [
           {
@@ -685,7 +685,7 @@ function TeacherResources() {
       {
         title: "Community Partner Letter Bundle",
         category: "Community Engagement",
-        author: "Hilary Ferguson",
+        author: "Hilary Ferguson Morton",
         desc: "Letter templates for connecting with businesses, organizations, or individuals whose work relates to what's being taught in class — plus a parent letter with a detachable permission slip.",
         links: [
           {
@@ -701,7 +701,7 @@ function TeacherResources() {
       {
         title: "Group Accountability Form",
         category: "Project Based Learning",
-        author: "Hilary Ferguson",
+        author: "Hilary Ferguson Morton",
         desc: "Lets each group member assess peers and themselves on their role and contribution, so trends can be tracked individually and grades assigned accordingly.",
         links: [
           {
@@ -713,7 +713,7 @@ function TeacherResources() {
       {
         title: "PBL Brainstormer",
         category: "Project Based Learning",
-        author: "Hilary Ferguson",
+        author: "Hilary Ferguson Morton",
         desc: "A starting point for planning a Project-Based Learning unit — the challenge, big idea, curricular objectives, assessments, milestones, and possible community collaborations, all on one page.",
         links: [
           {
@@ -725,6 +725,7 @@ function TeacherResources() {
       {
         title: "Osmosis Inquiry Scaffold",
         category: "Inquiry-Based Learning",
+        author: "Hilary Ferguson Morton",
         desc: "A graphic organizer to scaffold student thinking around the concept of osmosis.",
         links: [
           {
