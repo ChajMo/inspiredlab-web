@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Facebook, Copy, Share2, Download, Sprout, Compass, BookOpen, Trophy } from "lucide-react";
+import { getBadgeTier, type BadgeTier } from "@/lib/trivia-badges";
 
 type TriviaQ = {
   category: "Culture" | "History" | "Science";
@@ -275,74 +276,19 @@ function shuffle<T>(arr: T[]) {
 // ---- Score badges ----
 // Tier thresholds are checked from the bottom up: the highest-min tier the
 // score qualifies for wins. Colors are separate for on-page (Tailwind-ish
-// hex) and canvas (drawn into the downloadable/shareable badge image).
-type Tier = {
-  key: string;
-  min: number; // minimum fraction correct (0-1) to earn this tier
-  label: string;
-  blurb: string;
-  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
-  emoji: string; // used inside the generated canvas image (icons aren't drawable there)
-  from: string; // gradient start (on-page + canvas)
-  to: string; // gradient end
-  accent: string; // text/icon accent color
+// hex) and canvas (drawn into the downloadable/shareable badge image). The
+// tier data itself (thresholds, colors, copy, emoji) lives in
+// lib/trivia-badges.ts, shared with the server-rendered OG image used for
+// link previews, so the two generated images never drift apart.
+const TIER_ICONS: Record<
+  string,
+  React.ComponentType<{ className?: string; style?: React.CSSProperties }>
+> = {
+  learner: Sprout,
+  explorer: Compass,
+  scholar: BookOpen,
+  master: Trophy,
 };
-
-const TIERS: Tier[] = [
-  {
-    key: "learner",
-    min: 0,
-    label: "Curious Learner",
-    blurb: "You're just getting started — try again to level up!",
-    icon: Sprout,
-    emoji: "🌱",
-    from: "#DCEEFC",
-    to: "#BFE0FA",
-    accent: "#1D4E89",
-  },
-  {
-    key: "explorer",
-    min: 0.4,
-    label: "Culture Explorer",
-    blurb: "Solid instincts for Caribbean culture and history!",
-    icon: Compass,
-    emoji: "🧭",
-    from: "#D6F5EA",
-    to: "#AEE9CF",
-    accent: "#0F7A55",
-  },
-  {
-    key: "scholar",
-    min: 0.7,
-    label: "Island Scholar",
-    blurb: "Impressive knowledge of the region!",
-    icon: BookOpen,
-    emoji: "📚",
-    from: "#FFE8D2",
-    to: "#FFD1A6",
-    accent: "#B45B18",
-  },
-  {
-    key: "master",
-    min: 0.9,
-    label: "Caribbean Trivia Master",
-    blurb: "Outstanding! You really know your stuff.",
-    icon: Trophy,
-    emoji: "🏆",
-    from: "#FFF3C4",
-    to: "#FFE28A",
-    accent: "#8A6300",
-  },
-];
-
-function getTier(score: number, total: number): Tier {
-  const pct = total > 0 ? score / total : 0;
-  let result = TIERS[0];
-  for (const tier of TIERS) {
-    if (pct >= tier.min) result = tier;
-  }
-  return result;
-}
 
 function roundRectPath(
   ctx: CanvasRenderingContext2D,
@@ -373,7 +319,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 
 // Draws a 1080x1080 shareable badge image and returns it as a PNG Blob.
 async function buildBadgeImage(
-  tier: Tier,
+  tier: BadgeTier,
   score: number,
   total: number
 ): Promise<Blob | null> {
@@ -511,7 +457,7 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
     if (!done || round.length === 0) return;
     let cancelled = false;
     setGeneratingBadge(true);
-    const tier = getTier(score, round.length);
+    const tier = getBadgeTier(score, round.length);
     buildBadgeImage(tier, score, round.length).then((blob) => {
       if (cancelled) return;
       setGeneratingBadge(false);
@@ -574,10 +520,14 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
       return null;
     });
   }
+  // Points at a dedicated results page (not the homepage) so that Facebook,
+  // WhatsApp, etc. can show a link preview image matching this specific
+  // score/tier — see app/trivia-result/page.tsx and app/api/og-badge.
+  const resultPath = `/trivia-result?score=${score}&total=${round.length}`;
   const shareUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/#resources`
-      : "#resources";
+      ? `${window.location.origin}${resultPath}`
+      : resultPath;
 
   const shareText = `I scored ${score}/${round.length} on the InspirED Lab trivia challenge! Test your knowledge of Caribbean culture, history, and science.`;
 
@@ -595,14 +545,14 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
 
   async function getOrBuildBadgeBlob(): Promise<Blob | null> {
     if (badgeBlob) return badgeBlob;
-    const tier = getTier(score, round.length);
+    const tier = getBadgeTier(score, round.length);
     return buildBadgeImage(tier, score, round.length);
   }
 
   async function downloadBadge() {
     const blob = await getOrBuildBadgeBlob();
     if (!blob) return;
-    const tier = getTier(score, round.length);
+    const tier = getBadgeTier(score, round.length);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -649,8 +599,8 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
       <CardContent className="space-y-4">
         {done ? (
           (() => {
-            const tier = getTier(score, round.length);
-            const TierIcon = tier.icon;
+            const tier = getBadgeTier(score, round.length);
+            const TierIcon = TIER_ICONS[tier.key] ?? Sprout;
             return (
               <div className="space-y-4">
                 <div className="text-base">
