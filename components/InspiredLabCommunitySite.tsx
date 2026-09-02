@@ -370,7 +370,7 @@ function Hero() {
                     </p>
                     <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
                       <Calendar className="h-3.5 w-3.5" />
-                      <span>May 10, 2026</span>
+                      <span>October 10, 2026</span>
                     </div>
                   </div>
                 </div>
@@ -523,7 +523,7 @@ function Programs() {
         eyebrow: "InspirED Media",
         desc: "We engage with community members from diverse backgrounds to explore how science shows up in daily life.",
         video: "/Interviews/Interview-Azmon.mp4",
-        cta: { label: "Check out our conversations!", href: "#resources" },
+        cta: { label: "Check out our conversations!", href: "https://www.youtube.com/@InspirEDLab_kn" },
       },
       {
         title: "Birds of SKN",
@@ -607,17 +607,28 @@ function Programs() {
                 <CardContent className="flex-1 flex flex-col space-y-5">
                   {/* Video Section */}
                   {p.video && (
-                    <div className="rounded-2xl overflow-hidden shadow-md bg-black ring-1 ring-black/5 hover:shadow-lg transition-shadow">
+                    <div className="rounded-2xl overflow-hidden shadow-md bg-black ring-1 ring-black/5">
                       <div className="aspect-video w-full">
-                        <video
-                          controls
-                          preload="metadata"
-                          className="h-full w-full"
-                          style={{ objectFit: "cover" }}
-                        >
-                          <source src={p.video} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
+                        {p.video.includes("youtube.com") || p.video.includes("youtu.be") ? (
+                          <iframe
+                            src={p.video}
+                            title={p.title}
+                            className="h-full w-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                          />
+                        ) : (
+                          <video
+                            controls
+                            preload="metadata"
+                            className="h-full w-full"
+                            style={{ objectFit: "cover" }}
+                          >
+                            <source src={p.video} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
                       </div>
                     </div>
                   )}
@@ -673,7 +684,7 @@ function AboutVisionFaq() {
 
   const people = [
     {
-      name: "Hilary Ferguson-Morton, B.S., M.Ed.",
+      name: "Hilary Ferguson Morton, B.S., M.Ed.",
       role: "STEM Educator • Learning Experience Designer",
       image: "/team/hilary.jpg",
       alt: "Hilary Ferguson-Morton",
