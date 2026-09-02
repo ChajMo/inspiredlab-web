@@ -1,9 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Facebook, Copy, Share2, Download, Sprout, Compass, BookOpen, Trophy } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Facebook,
+  Copy,
+  Share2,
+  Download,
+  Sprout,
+  Compass,
+  BookOpen,
+  Trophy,
+  Lightbulb,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 import { getBadgeTier, type BadgeTier } from "@/lib/trivia-badges";
 
 type TriviaQ = {
@@ -13,6 +27,17 @@ type TriviaQ = {
   answerIndex: number;
   explain?: string;
 };
+
+// Color-codes each question's category badge. Reuses the same palette as the
+// badge tiers (lib/trivia-badges.ts) so the whole trivia experience feels
+// like one connected color language.
+const CATEGORY_STYLES: Record<TriviaQ["category"], { accent: string; bg: string }> = {
+  Culture: { accent: "#B45B18", bg: "#FFE8D2" },
+  History: { accent: "#1D4E89", bg: "#DCEEFC" },
+  Science: { accent: "#0F7A55", bg: "#D6F5EA" },
+};
+
+const ANSWER_LETTERS = ["A", "B", "C", "D"];
 
 const QUESTION_BANK: TriviaQ[] = [
   {
@@ -585,18 +610,44 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
   }
 
   return (
-    <Card className="rounded-3xl bg-white">
-      <CardHeader>
-        <div className="text-xs text-muted-foreground">Trivia game</div>
-        <CardTitle className="text-xl text-[oklch(var(--brand-navy))]">
-          Test your knowledge!
-        </CardTitle>
-        <div className="text-sm text-muted-foreground">
-          Score: {score}/{round.length}
+    <Card className="rounded-3xl overflow-hidden border-[oklch(var(--brand-sky)/0.3)] shadow-md py-0 gap-0">
+      {/* Colorful header banner */}
+      <div className="bg-gradient-to-br from-[oklch(var(--brand-sky)/0.30)] via-[oklch(var(--brand-sky)/0.14)] to-white px-6 sm:px-8 pt-6 pb-5">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-primary/80 uppercase tracking-wide">
+              <Lightbulb className="h-4 w-4" />
+              Trivia game
+            </div>
+            <div className="text-xl sm:text-2xl font-semibold text-primary mt-1">
+              Test your knowledge!
+            </div>
+            <div className="text-sm text-muted-foreground mt-1">
+              Answer {round.length} questions and earn a shareable badge 🏆
+            </div>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <div className="text-2xl font-bold text-primary leading-none">{score}</div>
+            <div className="text-xs text-muted-foreground mt-1">/ {round.length}</div>
+          </div>
         </div>
-      </CardHeader>
 
-      <CardContent className="space-y-4">
+        {!done ? (
+          <div className="mt-4">
+            <div className="h-2 rounded-full bg-white/70 overflow-hidden">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[oklch(var(--brand-sky))] to-[oklch(var(--brand-orange))] transition-all duration-300"
+                style={{ width: `${(i / round.length) * 100}%` }}
+              />
+            </div>
+            <div className="mt-1.5 text-xs text-muted-foreground">
+              Question {i + 1} of {round.length}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      <CardContent className="space-y-4 p-6 sm:p-8">
         {done ? (
           (() => {
             const tier = getBadgeTier(score, round.length);
@@ -698,54 +749,92 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
             );
           })()
         ) : (
-          <>
-            <div className="text-xs text-muted-foreground">{q.category}</div>
-            <div className="text-base font-medium">{q.question}</div>
-
-            <div className="grid gap-2">
-              {q.choices.map((c, idx) => {
-                const isCorrect = picked !== null && idx === q.answerIndex;
-                const isWrong = picked !== null && idx === picked && picked !== q.answerIndex;
-
-                return (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => choose(idx)}
-                    className={[
-                      "w-full rounded-2xl border px-3 py-2 text-left text-sm transition",
-                      picked === null ? "hover:bg-muted" : "",
-                      isCorrect ? "border-emerald-400 bg-emerald-50" : "",
-                      isWrong ? "border-rose-400 bg-rose-50" : "",
-                    ].join(" ")}
-                  >
-                    {c}
-                  </button>
-                );
-              })}
-            </div>
-
-            {picked !== null && (
-              <div className="rounded-2xl bg-[oklch(var(--brand-sky)/0.10)] p-3 text-sm">
-                {picked === q.answerIndex ? "✅ Correct!" : "❌ Not quite."}
-                {q.explain ? <div className="mt-1 text-muted-foreground">{q.explain}</div> : null}
-              </div>
-            )}
-
-            <div className="flex items-center justify-between pt-2">
-              <div className="text-xs text-muted-foreground">
-                Question {i + 1} of {round.length}
-              </div>
-              <Button
-                onClick={next}
-                className="rounded-2xl"
-                disabled={picked === null}
-                variant="outline"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="space-y-4"
+            >
+              <div
+                className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                style={{
+                  backgroundColor: CATEGORY_STYLES[q.category].bg,
+                  color: CATEGORY_STYLES[q.category].accent,
+                }}
               >
-                Next
-              </Button>
-            </div>
-          </>
+                {q.category}
+              </div>
+              <div className="text-base font-medium">{q.question}</div>
+
+              <div className="grid gap-2">
+                {q.choices.map((c, idx) => {
+                  const isCorrect = picked !== null && idx === q.answerIndex;
+                  const isWrong =
+                    picked !== null && idx === picked && picked !== q.answerIndex;
+                  const isFaded = picked !== null && !isCorrect && !isWrong;
+
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => choose(idx)}
+                      className={cn(
+                        "w-full flex items-center gap-3 rounded-2xl border px-3 py-2.5 text-left text-sm transition",
+                        picked === null ? "hover:border-primary/40 hover:bg-muted" : "",
+                        isCorrect ? "border-emerald-400 bg-emerald-50" : "",
+                        isWrong ? "border-rose-400 bg-rose-50" : "",
+                        isFaded ? "opacity-60" : ""
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold",
+                          isCorrect
+                            ? "bg-emerald-500 text-white"
+                            : isWrong
+                              ? "bg-rose-500 text-white"
+                              : "bg-muted text-muted-foreground"
+                        )}
+                      >
+                        {isCorrect ? (
+                          <CheckCircle2 className="h-4 w-4" />
+                        ) : isWrong ? (
+                          <XCircle className="h-4 w-4" />
+                        ) : (
+                          ANSWER_LETTERS[idx]
+                        )}
+                      </span>
+                      <span className="flex-1">{c}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {picked !== null && (
+                <div className="rounded-2xl bg-[oklch(var(--brand-sky)/0.10)] p-3 text-sm">
+                  <span className="font-medium">
+                    {picked === q.answerIndex ? "Correct!" : "Not quite."}
+                  </span>
+                  {q.explain ? (
+                    <div className="mt-1 text-muted-foreground">{q.explain}</div>
+                  ) : null}
+                </div>
+              )}
+
+              <div className="flex items-center justify-end pt-2">
+                <Button
+                  onClick={next}
+                  className="rounded-2xl"
+                  disabled={picked === null}
+                >
+                  {i + 1 >= round.length ? "See my badge" : "Next"}
+                </Button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         )}
       </CardContent>
     </Card>
