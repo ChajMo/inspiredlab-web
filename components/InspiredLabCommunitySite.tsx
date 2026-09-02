@@ -326,7 +326,7 @@ function Hero() {
                 {[
                   {
                     icon: <BookOpen className="h-5 w-5 text-primary" />,
-                    title: "Design culturally responsive STEAM curricula",
+                    title: "Design culturally responsive STEM curricula",
                     desc: "We create learning experiences designed for Caribbean contexts, connecting subject matter to real-world applications.",
                   },
                   {
@@ -850,7 +850,7 @@ function AboutVisionFaq() {
   ] as const;
 
   return (
-    <section id="about" className="relative bg-white py-20 sm:py-24 overflow-hidden">
+    <section id="about" className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-40 left-0 w-96 h-96 bg-[oklch(var(--brand-coral)/0.06)] rounded-full blur-3xl" />
@@ -1141,7 +1141,7 @@ function Resources() {
   const visibleResources = showAllResources ? resources : resources.slice(0, 3);
 
   return (
-    <section id="resources" className="bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24">
+    <section id="resources" className="bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Resources"
