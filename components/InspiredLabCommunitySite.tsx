@@ -793,11 +793,11 @@ function TeacherResources() {
                     key={link.href}
                     asChild
                     variant="outline"
-                    className="w-full rounded-2xl h-11 font-medium hover:bg-[oklch(var(--brand-sky)/0.08)] hover:text-[oklch(var(--brand-sky))] hover:border-[oklch(var(--brand-sky)/0.3)] transition-all"
+                    className="w-full rounded-2xl min-h-11 h-auto py-2.5 px-4 font-medium whitespace-normal text-sm leading-snug text-center hover:bg-[oklch(var(--brand-sky)/0.08)] hover:text-[oklch(var(--brand-sky))] hover:border-[oklch(var(--brand-sky)/0.3)] transition-all"
                   >
                     <a href={link.href} target="_blank" rel="noopener noreferrer">
-                      {link.label}
-                      <ExternalLink className="h-4 w-4 ml-2" />
+                      <span>{link.label}</span>
+                      <ExternalLink className="h-4 w-4 ml-2 shrink-0" />
                     </a>
                   </Button>
                 ))}
