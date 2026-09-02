@@ -44,6 +44,7 @@ import {
   ChevronRight,
   ChevronLeft,
   Recycle,
+  Award,
 } from "lucide-react";
 
 const BRAND = {
@@ -128,6 +129,7 @@ function TopNav() {
       { label: "Teacher Resources", href: "#teacher-resources" },
       { label: "About", href: "#about" },
       { label: "Resources", href: "#resources" },
+      { label: "STEAM Award", href: "#steam-award" },
       { label: "Contact", href: "#contact" },
     ],
     []
@@ -1254,7 +1256,53 @@ function Resources() {
   );
 }
 
+function SteamAward() {
+  const recipients = [
+    { year: "2020/21", name: "Chenoa Simmonds" },
+    { year: "2021/22", name: "Kezia Purcell" },
+    { year: "2022/23", name: "Jael Chiverton" },
+    { year: "2023/24", name: "Hannah-Marie Williams" },
+    { year: "2024/25", name: "Mary Lynch" },
+  ];
 
+  return (
+    <section
+      id="steam-award"
+      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeader
+          eyebrow="InspirED Lab STEAM Award"
+          title="Celebrating students who bridge science and art"
+          desc="Each year, InspirED Lab presents a monetary award to a graduating high school student in Saint Kitts & Nevis who excels in both Science and the Arts — recognizing the kind of curious, creative thinking we hope to inspire in every classroom."
+        />
+
+        <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {recipients.map((r) => (
+            <Card
+              key={r.year}
+              className="rounded-3xl border-[oklch(var(--brand-sky)/0.25)] bg-white"
+            >
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                  <Award className="h-6 w-6 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {r.year}
+                  </div>
+                  <div className="text-base font-semibold text-[oklch(var(--brand-navy))] mt-0.5">
+                    {r.name}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -1383,6 +1431,7 @@ export default function InspiredLabCommunitySite() {
         <TeacherResources />
         <AboutVisionFaq />
         <Resources />
+        <SteamAward />
       </main>
 
       <Footer />
