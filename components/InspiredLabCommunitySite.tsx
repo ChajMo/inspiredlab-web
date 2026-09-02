@@ -327,7 +327,7 @@ function Hero() {
                 {[
                   {
                     icon: <BookOpen className="h-5 w-5 text-primary" />,
-                    title: "Design culturally responsive STEM curricula",
+                    title: "Design culturally responsive STEAM curricula",
                     desc: "We create learning experiences designed for Caribbean contexts, connecting subject matter to real-world applications.",
                   },
                   {
