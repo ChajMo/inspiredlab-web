@@ -522,7 +522,7 @@ function Programs() {
         title: "InspirED Conversations",
         eyebrow: "InspirED Media",
         desc: "We engage with community members from diverse backgrounds to explore how science shows up in daily life.",
-        video: "/Interviews/Interview-Azmon.mp4",
+        video: "/https://www.youtube.com/embed/xz4Y7-BAQdI",
         cta: { label: "Check out our conversations!", href: "https://www.youtube.com/@InspirEDLab_kn" },
       },
       {
@@ -613,7 +613,7 @@ function Programs() {
                           <iframe
                             src={p.video}
                             title={p.title}
-                            className="h-full w-full"
+                            className="h-full w-full border-0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerPolicy="strict-origin-when-cross-origin"
                             allowFullScreen
