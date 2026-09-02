@@ -43,6 +43,7 @@ import {
   ArrowRight,
   ChevronRight,
   ChevronLeft,
+  Recycle,
 } from "lucide-react";
 
 const BRAND = {
@@ -326,7 +327,7 @@ function Hero() {
                 {[
                   {
                     icon: <BookOpen className="h-5 w-5 text-primary" />,
-                    title: "Design culturally responsive STEAM curricula",
+                    title: "Design culturally responsive STEM curricula",
                     desc: "We create learning experiences designed for Caribbean contexts, connecting subject matter to real-world applications.",
                   },
                   {
@@ -372,6 +373,52 @@ function Hero() {
                     <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
                       <Calendar className="h-3.5 w-3.5" />
                       <span>October 10, 2026</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Previous event card */}
+            <Card className="rounded-3xl shadow-sm border-[oklch(var(--brand-sky)/0.25)] bg-white">
+              <CardContent className="p-5">
+                <div className="flex items-start gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                    <Recycle className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-primary mb-1">
+                      Previous Event
+                    </div>
+                    <p className="text-sm text-foreground leading-relaxed">
+                      Conaree Beach Cleanup — 7 volunteers removed 994 pieces of trash (about 155 lbs) along 0.9 miles of coastline.
+                    </p>
+
+                    <div className="mt-3 grid grid-cols-3 gap-2">
+                      <img
+                        src="/BeachCleanup/group.jpg"
+                        alt="Volunteers at the Conaree Beach Cleanup"
+                        className="h-16 w-full rounded-xl object-cover"
+                      />
+                      <img
+                        src="/BeachCleanup/debris.jpg"
+                        alt="Debris collected during the Conaree Beach Cleanup"
+                        className="h-16 w-full rounded-xl object-cover"
+                      />
+                      <img
+                        src="/BeachCleanup/bags.jpg"
+                        alt="Bagged trash from the Conaree Beach Cleanup"
+                        className="h-16 w-full rounded-xl object-cover"
+                      />
+                    </div>
+
+                    <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
+                      Plastic bottles (301) and plastic bottle caps (128) were the most common finds — a reminder of how much single-use plastic still reaches our shores.
+                    </p>
+
+                    <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar className="h-3.5 w-3.5" />
+                      <span>July 11, 2026 · Conaree</span>
                     </div>
                   </div>
                 </div>
@@ -737,7 +784,7 @@ function TeacherResources() {
       {
         title: "Osmosis Kinesthetic Activity",
         category: "Whole Body Learning",
-        author: "Hilary Ferguson Morton",
+        author: "Hilary Ferguson",
         desc: "A whole-body classroom activity using chairs and movement to model a selectively permeable membrane and osmosis — a good engage activity for the topic.",
         links: [
           {
