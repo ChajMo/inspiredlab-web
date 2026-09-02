@@ -829,9 +829,9 @@ function AboutVisionFaq() {
   const people = [
     {
       name: "Hilary Ferguson Morton, B.S., M.Ed.",
-      role: "STEM Educator • Learning Experience Designer",
+      role: "STEAM Educator • Learning Experience Designer",
       image: "/team/hilary.jpg",
-      alt: "Hilary Ferguson-Morton",
+      alt: "Hilary Ferguson Morton",
       bio: [
         "Hilary is a science educator with over a decade of experience in secondary school education. She completed her Master's in Instructional Technology and Media at Teachers College, Columbia University, with a focus on Culturally Relevant and Responsive Science Education.",
         "Her teaching philosophy is rooted in dialogue and co-empowerment—allowing students to express, through multiple ways, what they already bring to the classroom and guiding them in making connections to the science of their everyday life experiences. She believes in creating learning spaces that engage and inspire persons not merely to acquire knowledge, but to use that knowledge to solve problems of personal and community relevance. She refers to this as learning that matters.",
@@ -897,7 +897,7 @@ function AboutVisionFaq() {
                     </CardTitle>
                   </div>
                   <CardDescription className="text-base">
-                    Our approach to STEM education is deeply community-centered, culturally grounded, and action-oriented.
+                    Our approach to STEAM education is deeply community-centered, culturally grounded, and action-oriented.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
@@ -1051,7 +1051,7 @@ function Resources() {
     () => [
       {
         title: "STRAWS (Science, Technology, Arts and Work Study)",
-        desc: "Community-based participatory research and STEM outreach.",
+        desc: "Community-based participatory research and STEAM outreach.",
         href: "https://www.noshortstraws.com/",
         audience: "Community",
       },
