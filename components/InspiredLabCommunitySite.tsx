@@ -1261,7 +1261,7 @@ function TriviaSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Trivia Challenge"
-          title="Test your Caribbean STEM & culture knowledge"
+          title="Test your Caribbean knowledge"
           desc="A quick, shareable way to see what InspirED Lab is all about — answer 10 questions, earn a badge, and see how you rank."
         />
         <div className="mt-10">
