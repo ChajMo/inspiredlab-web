@@ -1310,7 +1310,7 @@ function SteamAward() {
         <SectionHeader
           eyebrow="InspirED Lab STEAM Award"
           title="Celebrating students who bridge science and art"
-          desc="Each year, InspirED Lab presents a monetary award to a graduating high school student in Saint Kitts & Nevis who excels in both Science and the Arts — recognizing the kind of curious, creative thinking we hope to inspire in every classroom. Every recipient to date has attended Washington Archibald High School."
+          desc="Each year, InspirED Lab presents a monetary award to a graduating high school student in Saint Kitts & Nevis who excels in both Science and the Arts — recognizing the kind of curious, creative thinking we hope to inspire in every classroom."
         />
 
         {/* Featured: current recipient */}
