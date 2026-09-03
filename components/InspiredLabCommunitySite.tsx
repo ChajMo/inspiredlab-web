@@ -1195,7 +1195,7 @@ function Resources() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Resources"
-          title="Free STEAM learning and engagement resources"
+          title="Free STEM learning and engagement resources"
           desc="Curated tools, platforms, and learning spaces that connect science to real-world experiences across the Caribbean and beyond."
         />
 
@@ -1261,7 +1261,7 @@ function TriviaSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Trivia Challenge"
-          title="Test your Caribbean knowledge"
+          title="Test your Caribbean STEM & culture knowledge"
           desc="A quick, shareable way to see what InspirED Lab is all about — answer 10 questions, earn a badge, and see how you rank."
         />
         <div className="mt-10">
@@ -1274,11 +1274,11 @@ function TriviaSection() {
 
 function SteamAward() {
   const recipients = [
-    { year: "2020/21", name: "Chenoa Simmonds" },
-    { year: "2021/22", name: "Kezia Purcell" },
-    { year: "2022/23", name: "Jael Chiverton" },
-    { year: "2023/24", name: "Hannah-Marie Williams" },
     { year: "2024/25", name: "Mary Lynch" },
+    { year: "2023/24", name: "Hannah-Marie Williams" },
+    { year: "2022/23", name: "Jael Chiverton" },
+    { year: "2021/22", name: "Kezia Purcell" },
+    { year: "2020/21", name: "Chenoa Simmonds" },
   ];
 
   return (
