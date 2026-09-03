@@ -1281,6 +1281,26 @@ function SteamAward() {
     { year: "2020/21", name: "Chenoa Simmonds" },
   ];
 
+  const [current, ...past] = recipients;
+
+  const accents = [
+    {
+      bg: "bg-[oklch(var(--brand-orange)/0.14)]",
+      border: "border-[oklch(var(--brand-orange)/0.3)]",
+      icon: "text-[oklch(var(--brand-orange))]",
+    },
+    {
+      bg: "bg-primary/10",
+      border: "border-primary/20",
+      icon: "text-primary",
+    },
+    {
+      bg: "bg-[oklch(var(--brand-sky)/0.22)]",
+      border: "border-[oklch(var(--brand-sky)/0.4)]",
+      icon: "text-[oklch(var(--brand-sky))]",
+    },
+  ];
+
   return (
     <section
       id="steam-award"
@@ -1290,30 +1310,65 @@ function SteamAward() {
         <SectionHeader
           eyebrow="InspirED Lab STEAM Award"
           title="Celebrating students who bridge science and art"
-          desc="Each year, InspirED Lab presents a monetary award to a graduating high school student in Saint Kitts & Nevis who excels in both Science and the Arts — recognizing the kind of curious, creative thinking we hope to inspire in every classroom."
+          desc="Each year, InspirED Lab presents a monetary award to a graduating high school student in Saint Kitts & Nevis who excels in both Science and the Arts — recognizing the kind of curious, creative thinking we hope to inspire in every classroom. Every recipient to date has attended Washington Archibald High School."
         />
 
-        <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-          {recipients.map((r) => (
-            <Card
-              key={r.year}
-              className="rounded-3xl border-[oklch(var(--brand-sky)/0.25)] bg-white"
-            >
-              <CardContent className="p-5 flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                  <Award className="h-6 w-6 text-primary" />
+        {/* Featured: current recipient */}
+        <div className="mt-12 sm:mt-16">
+          <Card className="rounded-3xl border-0 bg-gradient-to-br from-primary via-primary to-[oklch(var(--brand-sky))] text-white overflow-hidden shadow-lg shadow-primary/25 py-0">
+            <CardContent className="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7">
+              <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0">
+                <Award className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+                <Sparkles className="absolute -top-2 -right-2 h-5 w-5 text-[oklch(var(--brand-orange))]" />
+              </div>
+              <div className="min-w-0">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+                  {current.year} · Current Recipient
                 </div>
-                <div className="min-w-0">
-                  <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {r.year}
-                  </div>
-                  <div className="text-base font-semibold text-[oklch(var(--brand-navy))] mt-0.5">
-                    {r.name}
-                  </div>
+                <div className="text-xl sm:text-2xl font-bold mt-2">
+                  {current.name}
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Past recipients */}
+        <div className="mt-6 sm:mt-8">
+          <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
+            Previous Recipients
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {past.map((r, i) => {
+              const accent = accents[i % accents.length];
+              return (
+                <Card
+                  key={r.year}
+                  className={cn("rounded-2xl bg-white", accent.border)}
+                >
+                  <CardContent className="p-4 flex items-center gap-3">
+                    <div
+                      className={cn(
+                        "h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 border",
+                        accent.bg,
+                        accent.border
+                      )}
+                    >
+                      <Award className={cn("h-5 w-5", accent.icon)} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        {r.year}
+                      </div>
+                      <div className="text-sm font-semibold text-[oklch(var(--brand-navy))] mt-0.5 leading-snug">
+                        {r.name}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
