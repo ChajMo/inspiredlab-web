@@ -60,9 +60,8 @@ const BRAND = {
 
 const LINKS = {
   email: "inspiredlab.kn@gmail.com",
+  // TODO: point this at the real donation platform once it's set up.
   donate: "#donate",
-  volunteer: "#get-involved",
-  newsletter: "#newsletter",
   instagram: "https://www.instagram.com/inspiredlab.kn/",
   tiktok: "https://www.tiktok.com/@inspiredlab.kn",
   facebook: "https://www.facebook.com/inspiredlab.kn",
@@ -609,7 +608,7 @@ function Programs() {
   );
 
   return (
-    <section id="programs" className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden">
+    <section id="programs" className="relative bg-white py-20 sm:py-24 overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-[oklch(var(--brand-coral)/0.08)] rounded-full blur-3xl" />
@@ -804,7 +803,7 @@ function TeacherResources() {
   return (
     <section
       id="teacher-resources"
-      className="relative bg-white py-20 sm:py-24 overflow-hidden"
+      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
@@ -901,7 +900,7 @@ function AboutVisionFaq() {
   ] as const;
 
   return (
-    <section id="about" className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden">
+    <section id="about" className="relative bg-white py-20 sm:py-24 overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-40 left-0 w-96 h-96 bg-[oklch(var(--brand-coral)/0.06)] rounded-full blur-3xl" />
@@ -1196,7 +1195,7 @@ function Resources() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Resources"
-          title="Free STEAM learning and engagement resources"
+          title="Free STEM learning and engagement resources"
           desc="Curated tools, platforms, and learning spaces that connect science to real-world experiences across the Caribbean and beyond."
         />
 
@@ -1248,9 +1247,24 @@ function Resources() {
             </Button>
           </div>
         )}
+      </div>
+    </section>
+  );
+}
 
-        {/* Trivia */}
-        <div className="mt-14">
+function TriviaSection() {
+  return (
+    <section
+      id="trivia"
+      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <SectionHeader
+          eyebrow="Trivia Challenge"
+          title="Test your Caribbean STEM & culture knowledge"
+          desc="A quick, shareable way to see what InspirED Lab is all about — answer 10 questions, earn a badge, and see how you rank."
+        />
+        <div className="mt-10">
           <TriviaCard maxQuestions={10} />
         </div>
       </div>
@@ -1438,11 +1452,12 @@ export default function InspiredLabCommunitySite() {
 
       <main className="flex-1">
         <Hero />
+        <TriviaSection />
         <Programs />
         <TeacherResources />
         <AboutVisionFaq />
-        <Resources />
         <SteamAward />
+        <Resources />
       </main>
 
       <Footer />
