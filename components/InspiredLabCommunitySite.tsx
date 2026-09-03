@@ -1195,7 +1195,7 @@ function Resources() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Resources"
-          title="Free STEM learning and engagement resources"
+          title="Free STEAM learning and engagement resources"
           desc="Curated tools, platforms, and learning spaces that connect science to real-world experiences across the Caribbean and beyond."
         />
 
