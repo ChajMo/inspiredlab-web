@@ -40,6 +40,7 @@ import {
   Globe,
   Instagram,
   Facebook,
+  Youtube,
   ArrowRight,
   ChevronRight,
   ChevronLeft,
@@ -65,6 +66,7 @@ const LINKS = {
   instagram: "https://www.instagram.com/inspiredlab.kn/",
   tiktok: "https://www.tiktok.com/@inspiredlab.kn",
   facebook: "https://www.facebook.com/inspiredlab.kn",
+  youtube: "https://www.youtube.com/@InspirEDLab_kn",
 };
 
 function cn(...classes: Array<string | false | null | undefined>) {
@@ -1393,6 +1395,15 @@ function Footer() {
                   className="text-black/70 hover:text-[oklch(var(--brand-orange))] transition"
                 >
                   <Facebook className="h-4 w-4" />
+                </a>
+
+                <a
+                  href={LINKS.youtube}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-black/70 hover:text-[oklch(var(--brand-orange))] transition"
+                >
+                  <Youtube className="h-4 w-4" />
                 </a>
               </div>
             </div>
