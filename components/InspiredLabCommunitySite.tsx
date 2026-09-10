@@ -803,7 +803,7 @@ function TeacherResources() {
   return (
     <section
       id="teacher-resources"
-      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
+      className="relative bg-white py-20 sm:py-24 overflow-hidden"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
@@ -900,7 +900,7 @@ function AboutVisionFaq() {
   ] as const;
 
   return (
-    <section id="about" className="relative bg-white py-20 sm:py-24 overflow-hidden">
+    <section id="about" className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-40 left-0 w-96 h-96 bg-[oklch(var(--brand-coral)/0.06)] rounded-full blur-3xl" />
@@ -1256,15 +1256,16 @@ function TriviaSection() {
   return (
     <section
       id="trivia"
-      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
+      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-14 sm:py-16 overflow-hidden"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-2xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Trivia Challenge"
           title="Test your Caribbean knowledge"
           desc="A quick, shareable way to see what InspirED Lab is all about — answer 10 questions, earn a badge, and see how you rank."
+          align="center"
         />
-        <div className="mt-10">
+        <div className="mt-8">
           <TriviaCard maxQuestions={10} />
         </div>
       </div>
@@ -1507,10 +1508,10 @@ export default function InspiredLabCommunitySite() {
 
       <main className="flex-1">
         <Hero />
-        <TriviaSection />
-        <Programs />
-        <TeacherResources />
         <AboutVisionFaq />
+        <Programs />
+        <TriviaSection />
+        <TeacherResources />
         <SteamAward />
         <Resources />
       </main>
