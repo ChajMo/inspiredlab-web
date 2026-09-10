@@ -46,6 +46,7 @@ import {
   ChevronLeft,
   Recycle,
   Award,
+  Trophy,
 } from "lucide-react";
 
 const BRAND = {
@@ -711,7 +712,44 @@ function Programs() {
             </motion.div>
           ))}
         </div>
-      </div>   
+
+        {/* Compact trivia teaser — opens the full game in a modal instead of
+            taking up its own page section. */}
+        <div id="trivia" className="mt-6 lg:mt-8 scroll-mt-24">
+          <Dialog>
+            <DialogTrigger asChild>
+              <button
+                type="button"
+                className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-3xl bg-gradient-to-br from-primary via-primary to-[oklch(var(--brand-sky))] text-white px-6 py-5 sm:px-8 sm:py-6 text-left shadow-md shadow-primary/20 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="h-11 w-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0">
+                    <Trophy className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold uppercase tracking-wide text-white/80">
+                      Trivia Challenge
+                    </div>
+                    <div className="text-base sm:text-lg font-semibold">
+                      Test your Caribbean knowledge — earn a badge
+                    </div>
+                  </div>
+                </div>
+                <span className="inline-flex items-center justify-center rounded-2xl bg-white text-primary px-5 py-2.5 text-sm font-semibold flex-shrink-0 self-start sm:self-auto">
+                  Play now <ArrowRight className="h-4 w-4 ml-2" />
+                </span>
+              </button>
+            </DialogTrigger>
+
+            <DialogContent className="max-w-2xl p-0 border-0 shadow-none bg-transparent max-h-[90vh] overflow-y-auto">
+              <VisuallyHidden>
+                <DialogTitle>InspirED Lab Trivia Challenge</DialogTitle>
+              </VisuallyHidden>
+              <TriviaCard maxQuestions={10} />
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
     </section>
   );
 }
@@ -803,7 +841,7 @@ function TeacherResources() {
   return (
     <section
       id="teacher-resources"
-      className="relative bg-white py-20 sm:py-24 overflow-hidden"
+      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
@@ -1191,7 +1229,7 @@ function Resources() {
   const visibleResources = showAllResources ? resources : resources.slice(0, 3);
 
   return (
-    <section id="resources" className="bg-white py-20 sm:py-24">
+    <section id="resources" className="bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Resources"
@@ -1252,27 +1290,6 @@ function Resources() {
   );
 }
 
-function TriviaSection() {
-  return (
-    <section
-      id="trivia"
-      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-14 sm:py-16 overflow-hidden"
-    >
-      <div className="mx-auto max-w-2xl px-4 sm:px-6">
-        <SectionHeader
-          eyebrow="Trivia Challenge"
-          title="Test your Caribbean knowledge"
-          desc="A quick, shareable way to see what InspirED Lab is all about — answer 10 questions, earn a badge, and see how you rank."
-          align="center"
-        />
-        <div className="mt-8">
-          <TriviaCard maxQuestions={10} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function SteamAward() {
   const recipients = [
     { year: "2024/25", name: "Mary Lynch" },
@@ -1305,7 +1322,7 @@ function SteamAward() {
   return (
     <section
       id="steam-award"
-      className="relative bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24 overflow-hidden"
+      className="relative bg-white py-20 sm:py-24 overflow-hidden"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
@@ -1510,7 +1527,6 @@ export default function InspiredLabCommunitySite() {
         <Hero />
         <AboutVisionFaq />
         <Programs />
-        <TriviaSection />
         <TeacherResources />
         <SteamAward />
         <Resources />
