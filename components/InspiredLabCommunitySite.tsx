@@ -146,7 +146,17 @@ function scrollToPath(path: string, behavior: ScrollBehavior = "smooth") {
 // of letting the browser's default anchor behavior write a "#hash" into the
 // address bar. A matching real route (see app/programs/page.tsx etc.) makes
 // that same URL work correctly on a direct visit, refresh, or shared link.
+//
+// This only applies to sections of the single long page (Programs, About,
+// etc.). The blog lives on its own real pages (/blog, /blog/[slug]) with no
+// matching in-page element to scroll to, so a link to or from there falls
+// through to <Link>'s normal client-side route change instead.
 function navigateTo(e: React.MouseEvent<HTMLAnchorElement>, path: string) {
+  const onSinglePageSite = !window.location.pathname.startsWith("/blog");
+  const isSinglePageTarget = !path.startsWith("/blog");
+  if (!onSinglePageSite || !isSinglePageTarget) {
+    return;
+  }
   e.preventDefault();
   scrollToPath(path, "smooth");
   if (window.location.pathname !== path) {
@@ -154,7 +164,7 @@ function navigateTo(e: React.MouseEvent<HTMLAnchorElement>, path: string) {
   }
 }
 
-function TopNav() {
+export function TopNav() {
   const [open, setOpen] = useState(false);
 
   const items = useMemo(
@@ -164,6 +174,7 @@ function TopNav() {
       { label: "About", href: "/about" },
       { label: "Resources", href: "/resources" },
       { label: "STEAM Award", href: "/steam-award" },
+      { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ],
     []
@@ -190,14 +201,14 @@ function TopNav() {
 
         <div className="hidden md:flex items-center gap-6">
           {items.map((it) => (
-            <a
+            <Link
               key={it.href}
               href={it.href}
               onClick={(e) => navigateTo(e, it.href)}
               className="text-sm text-muted-foreground hover:text-foreground transition"
             >
               {it.label}
-            </a>
+            </Link>
           ))}
           <Button
             asChild
@@ -226,7 +237,7 @@ function TopNav() {
         <div id="mobile-menu" className="md:hidden border-t">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-3 grid gap-2">
             {items.map((it) => (
-              <a
+              <Link
                 key={it.href}
                 href={it.href}
                 className="py-2 text-sm text-muted-foreground hover:text-foreground"
@@ -236,7 +247,7 @@ function TopNav() {
                 }}
               >
                 {it.label}
-              </a>
+              </Link>
             ))}
             <div className="pt-2">
               <Button asChild className="w-full rounded-xl">
@@ -1429,7 +1440,7 @@ function SteamAward() {
   );
 }
 
-function Footer() {
+export function Footer() {
   const year = new Date().getFullYear();
 
   return (
