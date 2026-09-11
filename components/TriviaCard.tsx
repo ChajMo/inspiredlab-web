@@ -1538,8 +1538,7 @@ export function TriviaCard({ maxQuestions = 8 }: { maxQuestions?: number }) {
 
                 <div className="text-xs text-muted-foreground">
                   For Instagram, TikTok, or texting a friend, use &ldquo;Share badge
-                  image&rdquo; (or download it and attach it yourself) — Facebook&rsquo;s
-                  button shares a link rather than the image itself.
+                  image&rdquo; (or download it and attach it yourself).
                 </div>
               </div>
             );
