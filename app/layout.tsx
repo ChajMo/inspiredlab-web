@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://inspiredlabskn.org";
+const SITE_URL = "https://www.inspiredlabskn.org";
 const TITLE = "InspirED Lab | Science Education Rooted in Community";
 const DESCRIPTION =
   "InspirED Lab is a nonprofit connecting classrooms, communities and Caribbean culture to real-world science — hands-on STEAM programs, free teacher resources, and community science initiatives in Saint Kitts & Nevis.";
