@@ -172,7 +172,7 @@ export function TopNav() {
       { label: "Programs", href: "/programs" },
       { label: "Teacher Resources", href: "/teacher-resources" },
       { label: "About", href: "/about" },
-      { label: "Resources", href: "/resources" },
+      { label: "STEAM Engagement", href: "/resources" },
       { label: "STEAM Award", href: "/steam-award" },
       { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
@@ -301,7 +301,7 @@ function Hero() {
                 variant="outline"
                 className="rounded-full px-3 py-1 text-sm"
               >
-                Students · Educators · Scientists
+                Students · Educators · Scientists · Advocates
               </Badge>
             </div>
 
@@ -1279,7 +1279,7 @@ function Resources() {
     <section id="resources" className="bg-[oklch(var(--brand-sky)/0.10)] py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
-          eyebrow="Resources"
+          eyebrow="STEAM Engagement"
           title="Free STEAM learning and engagement resources"
           desc="Curated tools, platforms, and learning spaces that connect science to real-world experiences across the Caribbean and beyond."
         />
