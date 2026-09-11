@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaTiktok } from "react-icons/fa";
 import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -122,25 +124,55 @@ function SectionHeader({
   );
 }
 
+// Scrolls to the section matching a clean path like "/programs" (id
+// "programs"), or to the top of the page for "/". Accounts for the sticky
+// nav's height so the section header doesn't land underneath it.
+function scrollToPath(path: string, behavior: ScrollBehavior = "smooth") {
+  if (path === "/" || path === "") {
+    window.scrollTo({ top: 0, behavior });
+    return;
+  }
+  const id = path.replace(/^\//, "");
+  const el = document.getElementById(id);
+  if (!el) return;
+  const nav = document.getElementById("site-topnav");
+  const offset = (nav?.getBoundingClientRect().height ?? 80) + 8;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top, behavior });
+}
+
+// Nav-link click handler: scrolls in place (no page reload/remount) and
+// updates the URL to a clean path (e.g. "/programs") via pushState, instead
+// of letting the browser's default anchor behavior write a "#hash" into the
+// address bar. A matching real route (see app/programs/page.tsx etc.) makes
+// that same URL work correctly on a direct visit, refresh, or shared link.
+function navigateTo(e: React.MouseEvent<HTMLAnchorElement>, path: string) {
+  e.preventDefault();
+  scrollToPath(path, "smooth");
+  if (window.location.pathname !== path) {
+    window.history.pushState(null, "", path);
+  }
+}
+
 function TopNav() {
   const [open, setOpen] = useState(false);
 
   const items = useMemo(
     () => [
-      { label: "Programs", href: "#programs" },
-      { label: "Teacher Resources", href: "#teacher-resources" },
-      { label: "About", href: "#about" },
-      { label: "Resources", href: "#resources" },
-      { label: "STEAM Award", href: "#steam-award" },
-      { label: "Contact", href: "#contact" },
+      { label: "Programs", href: "/programs" },
+      { label: "Teacher Resources", href: "/teacher-resources" },
+      { label: "About", href: "/about" },
+      { label: "Resources", href: "/resources" },
+      { label: "STEAM Award", href: "/steam-award" },
+      { label: "Contact", href: "/contact" },
     ],
     []
   );
 
   return (
-    <div className="sticky top-0 z-50 border-b backdrop-blur bg-gradient-to-b from-[oklch(var(--brand-sky)/0.28)] to-[oklch(var(--brand-sky)/0.08)]">
+    <div id="site-topnav" className="sticky top-0 z-50 border-b backdrop-blur bg-gradient-to-b from-[oklch(var(--brand-sky)/0.28)] to-[oklch(var(--brand-sky)/0.08)]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-3 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2">
+        <Link href="/" onClick={(e) => navigateTo(e, "/")} className="flex items-center gap-2">
             <Image
             src="/InspiredLab.png"
             alt="InspirED Lab Logo"
@@ -154,13 +186,14 @@ function TopNav() {
               Community Science
             </div>
           </div>
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-6">
           {items.map((it) => (
             <a
               key={it.href}
               href={it.href}
+              onClick={(e) => navigateTo(e, it.href)}
               className="text-sm text-muted-foreground hover:text-foreground transition"
             >
               {it.label}
@@ -197,7 +230,10 @@ function TopNav() {
                 key={it.href}
                 href={it.href}
                 className="py-2 text-sm text-muted-foreground hover:text-foreground"
-                onClick={() => setOpen(false)}
+                onClick={(e) => {
+                  navigateTo(e, it.href);
+                  setOpen(false);
+                }}
               >
                 {it.label}
               </a>
@@ -1519,6 +1555,27 @@ function Footer() {
 }
 
 export default function InspiredLabCommunitySite() {
+  const pathname = usePathname();
+
+  // On a direct load/refresh/shared link (e.g. someone opens /programs
+  // directly), jump straight to that section — no animation, since the
+  // page hasn't visually settled yet.
+  useEffect(() => {
+    scrollToPath(pathname ?? "/", "auto");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Nav clicks update the URL via history.pushState (see navigateTo) rather
+  // than a real route change, so the browser's Back/Forward buttons need
+  // their own listener to keep the scroll position in sync with the URL.
+  useEffect(() => {
+    function handlePopState() {
+      scrollToPath(window.location.pathname, "smooth");
+    }
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <TopNav />
