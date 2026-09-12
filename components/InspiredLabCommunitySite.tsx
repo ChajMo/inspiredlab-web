@@ -1546,16 +1546,16 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-white/60">
+        <div className="mt-10 pt-6 border-t border-black/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-black/60">
           <div>
             © {year} {BRAND.name}. All rights reserved.
           </div>
 
           <div className="flex items-center gap-4">
-            <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition">
+            <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-black transition">
               Privacy
             </a>
-            <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition">
+            <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-black transition">
               Terms
             </a>
           </div>
